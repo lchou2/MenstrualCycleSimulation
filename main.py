@@ -1,4 +1,5 @@
 import pygame
+import random
 pygame.init()
 
 # Window dimensions
@@ -55,3 +56,47 @@ ESTROGEN_SPAWN_INTERVAL = 150
 PROGESTERONE_SPAWN_INTERVAL = 150
 LH_SPAWN_INTERVAL = 150
 FSH_SPAWN_INTERVAL = 150
+
+#Creating Main Simulation Image
+backgroundimage = pygame.image.load("Background image.png")
+backgroundimage_rect = backgroundimage.get_rect()
+
+#Centuring the image
+WINDOW_WIDTH, WINDOW_HEIGHT = window.get_size()
+backgroundimage_x = (WINDOW_WIDTH - backgroundimage_rect.width) // 2
+backgroundimage_y = (WINDOW_HEIGHT - backgroundimage_rect.height) // 2
+
+#Not yet functional.  Hormones will function similar to projectiles in our evil clutches game.
+class Hormone(pygame.sprite.Sprite):
+    def __init__(self, image, rect, speed):
+        self.image = image
+        self.rect = rect
+        self.mask = pygame.mask.from_surface(image)
+        self.speed = speed
+
+#Not yet functional.  Beginning outline for moving the follicles.  Plan to make the sliders a sub class.
+class Follicle(pygame.sprite.Sprite):
+    def __init__(self,image,rect):
+        self.image = image
+        self.rect = rect
+        self.mask = pygame.mask.from_surface(image)
+
+
+
+def main():
+    running = True
+    # Main game loop
+    while running:
+        for event in pygame.event.get(exclude=pygame.KEYDOWN):
+            if event.type == pygame.QUIT:
+                running = False
+
+        window.blit(backgroundimage, (backgroundimage_x, backgroundimage_y))
+
+        pygame.display.update()
+
+
+
+if __name__ == "__main__":
+    main()
+
