@@ -11,8 +11,53 @@ window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 pygame.display.set_caption("Menstrual Cycle Simulation")
 window.fill((255, 255, 255))
 
-#Creating Main Simulation Image
+# Dimensions of the sprites
+CL_LARGE_WIDTH = 30
+CL_LARGE_HEIGHT = 30
+CL_MEDIUM_WIDTH = 25
+CL_MEDIUM_HEIGHT = 25
+CL_SMALL_WIDTH = 20
+CL_SMALL_HEIGHT = 20
+EGG_WIDTH = 20
+EGG_HEIGHT = 20
+FOLLICLE_LARGE_WIDTH = 30
+FOLLICLE_LARGE_HEIGHT = 30
+FOLLICLE_MEDIUM_WIDTH = 25
+FOLLICLE_MEDIUM_HEIGHT = 25
+FOLLICLE_SMALL_WIDTH = 20
+FOLLICLE_SMALL_HEIGHT = 20
+ESTROGEN_WIDTH = 10
+ESTROGEN_HEIGHT = 10
+PROGESTERONE_WIDTH = 10
+PROGESTERONE_HEIGHT = 10
+LH_WIDTH = 10
+LH_HEIGHT = 10
+FSH_WIDTH = 10
+FSH_HEIGHT = 10
+TIME_SLIDER_WIDTH = 15
+TIME_SLIDER_HEIGHT = 15
+ESTROGEN_SLIDER_WIDTH = 10
+ESTROGEN_SLIDER_HEIGHT = 10
+PROGESTERONE_SLIDER_WIDTH = 10
+PROGESTERONE_SLIDER_HEIGHT = 10
+LH_SLIDER_WIDTH = 10
+LH_SLIDER_HEIGHT = 10
+FSH_SLIDER_WIDTH = 10
+FSH_SLIDER_HEIGHT = 10
 
+# Speeds of sprites
+ESTROGEN_SPEED = 5
+PROGESTERONE_SPEED = 5
+LH_SPEED = -5
+FSH_SPEED = -5
+
+ANIMATION_INTERVAL = 200
+ESTROGEN_SPAWN_INTERVAL = 150
+PROGESTERONE_SPAWN_INTERVAL = 150
+LH_SPAWN_INTERVAL = 150
+FSH_SPAWN_INTERVAL = 150
+
+#Creating Main Simulation Image
 backgroundimage = pygame.image.load("Background image.png")
 backgroundimage_rect = backgroundimage.get_rect()
 
@@ -36,8 +81,7 @@ class Follicle(pygame.sprite.Sprite):
         self.rect = rect
         self.mask = pygame.mask.from_surface(image)
 
-# Dimensions of the sprites
-CL_LARGE_WIDTH = 30
+
 
 def main():
     running = True
@@ -55,3 +99,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
