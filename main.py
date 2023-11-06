@@ -1,4 +1,5 @@
 import pygame
+import random
 pygame.init()
 
 # Window dimensions
@@ -9,6 +10,16 @@ WINDOW_HEIGHT = 1080
 window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 pygame.display.set_caption("Menstrual Cycle Simulation")
 window.fill((255, 255, 255))
+
+#Creating Main Simulation Image
+
+backgroundimage = pygame.image.load("Background image.png")
+backgroundimage_rect = backgroundimage.get_rect()
+
+#Centuring the image
+WINDOW_WIDTH, WINDOW_HEIGHT = window.get_size()
+backgroundimage_x = (WINDOW_WIDTH - backgroundimage_rect.width) // 2
+backgroundimage_y = (WINDOW_HEIGHT - backgroundimage_rect.height) // 2
 
 #Not yet functional.  Hormones will function similar to projectiles in our evil clutches game.
 class Hormone(pygame.sprite.Sprite):
@@ -28,3 +39,19 @@ class Follicle(pygame.sprite.Sprite):
 # Dimensions of the sprites
 CL_LARGE_WIDTH = 30
 
+def main():
+    running = True
+    # Main game loop
+    while running:
+        for event in pygame.event.get(exclude=pygame.KEYDOWN):
+            if event.type == pygame.QUIT:
+                running = False
+
+        window.blit(backgroundimage, (backgroundimage_x, backgroundimage_y))
+
+        pygame.display.update()
+
+
+
+if __name__ == "__main__":
+    main()
