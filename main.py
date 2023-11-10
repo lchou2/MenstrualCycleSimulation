@@ -66,6 +66,42 @@ WINDOW_WIDTH, WINDOW_HEIGHT = window.get_size()
 backgroundimage_x = (WINDOW_WIDTH - backgroundimage_rect.width) // 2
 backgroundimage_y = (WINDOW_HEIGHT - backgroundimage_rect.height) // 2
 
+# Load static images and scale images
+background_image = pygame.image.load('Background image.png').convert_alpha()
+cl_large_image = pygame.image.load('corpus leuteum large.png').convert_alpha()
+cl_large_image = pygame.transform.scale(cl_large_image, (20, 20))
+cl_medium_image = pygame.image.load('corpus leuteum medium.png').convert_alpha()
+cl_medium_image = pygame.transform.scale(cl_medium_image, (15, 15))
+cl_small_image = pygame.image.load('corpus leuteum small.png').convert_alpha()
+cl_small_image = pygame.transform.scale(cl_small_image, (10, 10))
+egg_cell_image = pygame.image.load('egg cell.png').convert_alpha()
+egg_cell_image = pygame.transform.scale(egg_cell_image, (10, 10))
+estrogen_molecule_image = pygame.image.load('estrogen molecule.png').convert_alpha()
+estrogen_molecule_image = pygame.transform.scale(estrogen_molecule_image, (10, 10))
+progesterone_molecule_image = pygame.image.load('progesterone molecule.png').convert_alpha()
+progesterone_molecule_image = pygame.transform.scale(progesterone_molecule_image, (10, 10))
+FSH_molecule_image = pygame.image.load('FSH molecule.png').convert_alpha()
+FSH_molecule_image = pygame.transform.scale(FSH_molecule_image, (10, 10))
+LH_molecule_image = pygame.image.load('LH molecule.png').convert_alpha()
+LH_molecule_image = pygame.transform.scale(LH_molecule_image, (10, 10))
+follicle_large_image = pygame.image.load('follicle large.png').convert_alpha()
+follicle_large_image = pygame.transform.scale(follicle_large_image, (20, 20))
+follicle_medium_image = pygame.image.load('follicle medium.png').convert_alpha()
+follicle_medium_image = pygame.transform.scale(follicle_medium_image, (15, 15))
+follicle_small_image = pygame.image.load('follicle small.png').convert_alpha()
+follicle_small_image = pygame.transform.scale(follicle_small_image, (10, 10))
+LH_slider_image = pygame.image.load('LH slider.png').convert_alpha()
+LH_slider_image = pygame.transform.scale(LH_slider_image, (10, 10))
+FSH_slider_image = pygame.image.load('FSH slider.png').convert_alpha()
+FSH_slider_image = pygame.transform.scale(FSH_slider_image, (10, 10))
+estrogen_slider_image = pygame.image.load('estrogen slider.png').convert_alpha()
+estrogen_slider_image = pygame.transform.scale(estrogen_slider_image, (10, 10))
+progesterone_slider_image = pygame.image.load('progesterone slider.png').convert_alpha()
+progesterone_slider_image = pygame.transform.scale(progesterone_slider_image, (10, 10))
+time_slider_image = pygame.image.load('time slider.png').convert_alpha()
+time_slider_image = pygame.transform.scale(time_slider_image, (10, 10))
+
+
 #Not yet functional.  Hormones will function similar to projectiles in our evil clutches game.
 class Hormone(pygame.sprite.Sprite):
     def __init__(self, image, rect, speed):
