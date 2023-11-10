@@ -43,13 +43,15 @@ def main():
     running = True
     # Main game loop
     while running:
-        for event in pygame.event.get(exclude=pygame.KEYDOWN):
-            if event.type == pygame.QUIT:
-                running = False
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    running = False
 
         window.blit(backgroundimage, (backgroundimage_x, backgroundimage_y))
-
         pygame.display.update()
+
+    pygame.quit()
 
 
 
