@@ -36,6 +36,14 @@ class Follicle(pygame.sprite.Sprite):
         self.rect = rect
         self.mask = pygame.mask.from_surface(image)
 
+    if event.type == MOUSEBUTTONDOWN:
+        if follicle.collidepoint(event.pos):
+            moving = True
+        elif event.type == MOUSEBUTTONUP:
+            moving = False
+        elif event.type == MOUSEMOTION and moving:
+            follicle.move_ip(event.rel)
+
 # Dimensions of the sprites
 CL_LARGE_WIDTH = 30
 
