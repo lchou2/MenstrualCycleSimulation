@@ -133,6 +133,15 @@ class Follicle(pygame.sprite.Sprite):
         #elif pygame.event.type == MOUSEMOTION and moving:
             #follicle.move_ip(event.rel)
 
+class Slider:
+    def __init__(self, pos: tuple, size: tuple, initial_val: float, min: int, max: int):
+        self.pos = position
+        self. size = size
+        self.slider_bottom_pos = self.pos[0] - (size[0]//2)
+
+        
+
+
 # Dimensions of the sprites
 CL_LARGE_WIDTH = 30
 
