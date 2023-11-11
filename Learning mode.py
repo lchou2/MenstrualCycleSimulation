@@ -132,9 +132,8 @@ class Follicle(pygame.sprite.Sprite):
         #elif pygame.event.type == MOUSEMOTION and moving:
             #follicle.move_ip(event.rel)
 class Slider:
-    def __init__(self, images, pos: tuple, size: tuple, initial_val: float, min: int, max: int):
-        self.images = images
-        self.image = self.images[self.index] #should I build an image index or subclass for each image?
+    def __init__(self, image, pos: tuple, size: tuple, initial_val: float, min: int, max: int):
+        self.image = image
         self.pos = pos
         self.size = size
         self.slider_bottom_pos = self.pos[0] - (size[0] // 2)
@@ -158,15 +157,29 @@ class Slider:
             pos = self.slider_top_pos
         self.button_rect.centerx = pos
 
+<<<<<<< Updated upstream
     def display(self):
         window.blit(self)
+=======
+    def 
+
+
+
+
+
+>>>>>>> Stashed changes
         
 
 # Dimensions of the sprites
 CL_LARGE_WIDTH = 30
 
 def main():
+<<<<<<< Updated upstream
     lhslider = (LH_slider_image, (940,420), (20,20), 0, (940, 990))
+=======
+
+    lhslider = Slider(LH_slider_image,(920, 420), (20,20), 0, 420, 450)
+>>>>>>> Stashed changes
     running = True
     # Main game loop
     while running:
@@ -186,7 +199,11 @@ def main():
         window.blit(egg_cell_image, (890, 610))
         window.blit(time_slider_image, (940, 230))
         window.blit(FSH_slider_image, (970, 420))
+<<<<<<< Updated upstream
         #window.blit(LH_slider_image, (920, 420))
+=======
+        # window.blit(LH_slider_image, (920, 420))
+>>>>>>> Stashed changes
         window.blit(progesterone_slider_image, (972, 792))
         window.blit(estrogen_slider_image, (902, 792))
         pygame.display.update()
