@@ -131,6 +131,10 @@ class Follicle(pygame.sprite.Sprite):
             #moving = False
         #elif pygame.event.type == MOUSEMOTION and moving:
             #follicle.move_ip(event.rel)
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 class Slider:
     def __init__(self, image, pos: tuple, size: tuple, initial_val: float, min: int, max: int):
         self.image = image
