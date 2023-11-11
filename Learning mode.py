@@ -132,10 +132,15 @@ class Follicle(pygame.sprite.Sprite):
         #elif pygame.event.type == MOUSEMOTION and moving:
             #follicle.move_ip(event.rel)
 
+class Day_positon:
+
+
 class Slider:
-    def __init__(self, pos: tuple, size: tuple, initial_val: float, min: int, max: int):
+    def __init__(self, images, pos: tuple, size: tuple, initial_val: float, min: int, max: int):
+        self.images = images
+        self.image = self.images[self.index] #should I build an image index or subclass for each image?
         self.pos = pos
-        self. size = size
+        self.size = size
         self.slider_bottom_pos = self.pos[0] - (size[0] // 2)
         self.slider_top_pos = self.pos[0] + (size[0] // 2)
         self.slider_mid_pos = self.pos[1] - (size[1] // 2)
@@ -143,12 +148,13 @@ class Slider:
         self.max = max
         self.initial_val = (self.slider_top_pos - self.slider_bottom_pos) * initial_val  # <- percentage
 
-        self.container_rect = pygame.Rect(self.slider_bottom_pos, self.slider_top_pos, self.size[0], self.size[1])
-        self.button_rect = pygame.Rect(self.slider_bottom_pos + self.initial_val - 5, self.slider_mid_pos, 10, self.size[1])
+        self.container_rect = pygame.Rect(self.slider_bottom_pos, self.slider_top_pos, self.size[0], self.size[1]) # bounds of slider
+        self.button_rect = self.image.get_rect()
+        #self.button_rect = pygame.Rect(self.slider_bottom_pos + self.initial_val - 5, self.slider_mid_pos, 10, self.size[1]) button --> needs to be image and not drawn
 
     def move_slider(self, mouse_pos):
-        mouse_pos = pygame.mouse.get_pos()
-        mouse = pygame.mouse.get_pressed()
+        self.mouse_pos = pygame.mouse.get_pos()
+        self.mouse = pygame.mouse.get_pressed()
         pos = mouse_pos[0]
         if pos < self.slider_bottom_pos:
             pos = self.slider_bottom_pos
