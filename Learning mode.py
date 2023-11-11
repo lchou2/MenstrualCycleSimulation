@@ -131,10 +131,6 @@ class Follicle(pygame.sprite.Sprite):
             #moving = False
         #elif pygame.event.type == MOUSEMOTION and moving:
             #follicle.move_ip(event.rel)
-
-class Day_positon:
-
-
 class Slider:
     def __init__(self, images, pos: tuple, size: tuple, initial_val: float, min: int, max: int):
         self.images = images
@@ -161,6 +157,11 @@ class Slider:
         if pos > self.slider_top_pos:
             pos = self.slider_top_pos
         self.button_rect.centerx = pos
+
+    def display(self):
+        window.blit(self)
+        
+
 
 
 
@@ -192,7 +193,7 @@ def main():
         window.blit(egg_cell_image, (890, 610))
         window.blit(time_slider_image, (940, 230))
         window.blit(FSH_slider_image, (970, 420))
-        window.blit(LH_slider_image, (920, 420))
+        #window.blit(LH_slider_image, (920, 420))
         window.blit(progesterone_slider_image, (972, 792))
         window.blit(estrogen_slider_image, (902, 792))
         pygame.display.update()
