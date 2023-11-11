@@ -162,18 +162,11 @@ class Slider:
         window.blit(self)
         
 
-
-
-
-
-
-        
-
-
 # Dimensions of the sprites
 CL_LARGE_WIDTH = 30
 
 def main():
+    lhslider = (LH_slider_image, (940,420), (20,20), 0, (940, 990))
     running = True
     # Main game loop
     while running:
