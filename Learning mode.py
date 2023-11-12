@@ -163,7 +163,7 @@ class Slider(pygame.sprite.Sprite):
 CL_LARGE_WIDTH = 30
 
 def main():
-    lhslider = Slider(LH_slider_image,(920, 420), (20,20), 0, 420, 300)
+    lhslider = Slider(LH_slider_image,(920, 420), (20,20), 0, 420, 340)
     slider_group.add(lhslider)
 
     running = True
