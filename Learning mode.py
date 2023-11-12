@@ -1,4 +1,5 @@
 import pygame
+import math
 pygame.init()
 
 # Window dimensions
@@ -102,6 +103,8 @@ progesterone_slider_image = pygame.image.load('progesterone slider.png').convert
 progesterone_slider_image = pygame.transform.scale(progesterone_slider_image, (15, 15))
 time_slider_image = pygame.image.load('time slider.png').convert_alpha()
 time_slider_image = pygame.transform.scale(time_slider_image, (30, 30))
+uterine_lining_sprite_sheet = pygame.image.load('uterine lining sprite sheet.png').convert_alpha()
+uterine_lining_sprite_sheet = pygame.transform.scale(uterine_lining_sprite_sheet, (440, 100))
 menstruation_sprite_sheet = pygame.image.load('menstruation sprite sheet.png').convert_alpha()
 menstruation_sprite_sheet = pygame.transform.scale(menstruation_sprite_sheet, (220, 180))
 
@@ -162,8 +165,59 @@ class Slider(pygame.sprite.Sprite):
 
 
 def main():
-    lhslider = Slider(LH_slider_image,(920, 420), (20,20), 0, 420, 340)
-    slider_group.add(lhslider)
+    # lhslider = Slider(LH_slider_image,(920, 420), (20,20), 0, 420, 340)
+    # slider_group.add(lhslider)
+
+    # Time slider dictionary of coordinates
+    # to center time_slider subtract 17 from each coordinate
+    time_slider = {
+        0:(940, 232),
+        1:(1000, 238),
+        2: (1040, 245),
+        3: (1093, 271),
+        4: (1133, 297),
+        5: (1170, 343),
+        6: (1200, 384),
+        7: (1222, 435),
+        8: (1236, 514),
+        9: (1227, 603),
+        10: (1199, 677),
+        11: (1161, 723),
+        12: (1123, 761),
+        13: (1062, 798),
+        14: (1000, 818),
+        15: (940, 828),
+        16: (867, 814),
+        17: (792, 788),
+        18: (745, 752),
+        19: (707, 715),
+        20: (683, 681),
+        21: (653, 615),
+        22: (641, 545),
+        23: (648, 460),
+        24: (674, 391),
+        25: (701, 345),
+        26: (744, 298),
+        27: (783, 268),
+        28: (834, 244),
+        29: (886, 232)
+    }
+
+    # Egg dictionary of coordinates
+    # to center time_slider subtract __ from each coordinate
+    egg_movement = {
+        15: (890, 610),
+        16: (878, 609),
+        17: (871, 586),
+        18: (875, 566),
+        19: (902, 549),
+        20: (930, 553),
+        21: (957, 561),
+        22: (991, 573),
+        23: (1014, 580),
+        24: (1051, 584),
+        25: (1083, 597),
+    }
 
     running = True
     # Main game loop
@@ -177,74 +231,46 @@ def main():
                     day = day + 1
                     if day > 29:
                         day = 0
+            if pygame.mouse.get_pressed()[0]:
+                mouse_x, mouse_y = pygame.mouse.get_pos()
+                pos = mouse_x
+                pos2 = mouse_y
+                print(pos, pos2)
 
         window.blit(backgroundimage, (backgroundimage_x, backgroundimage_y))
+        window.blit(FSH_slider_image, (970, 420))
+        window.blit(LH_slider_image, (920, 420))
+        window.blit(progesterone_slider_image, (972, 792))
+        window.blit(estrogen_slider_image, (902, 792))
 
-        if day == 0:
-            window.blit(time_slider_image, (940, 230))
-            window.blit(follicle_small_image, (905, 610))
-            window.blit(FSH_slider_image, (970, 420))
-            window.blit(LH_slider_image, (920, 420))
-            window.blit(progesterone_slider_image, (972, 792))
-            window.blit(estrogen_slider_image, (902, 792))
-            pygame.display.update()
+        if day in time_slider.keys() :
+            window.blit(time_slider_image, time_slider[day])
 
-        if day == 1:
-            window.blit(time_slider_image, (1000, 238))
+        if day in egg_movement.keys() :
+            window.blit(egg_cell_image, egg_movement[day])
+
+    # time slider circle code - too mathematical for our background image
+    #    window.blit(time_slider_image, (math.sin(day/28*360)*300+940,-math.cos(day/28*360)*300+532))
+
+        if day < 5:
             window.blit(follicle_small_image, (905, 610))
-            window.blit(FSH_slider_image, (970, 420))
-            window.blit(LH_slider_image, (920, 420))
-            window.blit(progesterone_slider_image, (972, 792))
-            window.blit(estrogen_slider_image, (902, 682))
-            pygame.display.update()
 
         if day == 5:
-            window.blit(time_slider_image, (1172, 344))
             window.blit(follicle_medium_image, (910, 610))
-            window.blit(estrogen_slider_image, (902, 780))
-            window.blit(menstruation_sprite_sheet, (1072, 585))
-            pygame.display.update()
+            window.blit(uterine_lining_sprite_sheet, (1062, 587))
 
         if day == 10:
-            window.blit(time_slider_image, (940, 230))
-            window.blit(follicle_large_image, (750, 900))
-            window.blit(progesterone_slider_image, (972, 792))
-            window.blit(estrogen_slider_image, (902, 792))
-            pygame.display.update()
-
-        if day == 14:
-            window.blit(time_slider_image, (940, 230))
-            window.blit(follicle_large_image, (750, 900))
-            window.blit(FSH_slider_image, (970, 420))
-            window.blit(LH_slider_image, (920, 420))
-            window.blit(progesterone_slider_image, (972, 792))
-            window.blit(estrogen_slider_image, (902, 792))
-            pygame.display.update()
+            window.blit(follicle_large_image, (910, 610))
 
         if day == 15:
-            window.blit(time_slider_image, (940, 230))
-            window.blit(follicle_ovulates_image, (850, 900))
-            window.blit(egg_cell_image, (890, 610))
-            window.blit(progesterone_slider_image, (972, 792))
-            window.blit(estrogen_slider_image, (902, 792))
-            pygame.display.update()
+            window.blit(follicle_ovulates_image, (910, 610))
 
         if day == 20:
-            window.blit(time_slider_image, (940, 230))
-            window.blit(cl_medium_image, (1050, 900))
-            window.blit(egg_cell_image, (890, 610))
-            window.blit(FSH_slider_image, (970, 420))
-            window.blit(LH_slider_image, (920, 420))
-            window.blit(progesterone_slider_image, (972, 792))
-            window.blit(estrogen_slider_image, (902, 792))
-            pygame.display.update()
+            window.blit(cl_medium_image, (910, 610))
 
         if day == 25:
-            window.blit(cl_small_image, (1100, 900))
-            window.blit(egg_cell_image, (890, 610))
-            window.blit(progesterone_slider_image, (972, 792))
-            window.blit(estrogen_slider_image, (902, 792))
-            pygame.display.update()
+            window.blit(cl_small_image, (910, 610))
+            window.blit(menstruation_sprite_sheet, (1072, 585))
 
         slider_group.draw(window)
         slider_group.update()
@@ -257,14 +283,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-# for Assessment Mode, we may want the follicle images along the bottom rank for dragging and dropping into the ovary.
-# Here are the coordinates for the follicle sprites:
-# window.blit(follicle_small_image, (650, 900))
-# window.blit(follicle_medium_image, (700, 900))
-# window.blit(follicle_large_image, (750, 900))
-# window.blit(follicle_ovulates_image, (850, 900))
-# window.blit(egg_cell_image, (890, 900))
-# window.blit(cl_large_image, (1000, 900))
-# window.blit(cl_medium_image, (1050, 900))
-# window.blit(cl_small_image, (1100, 900))
