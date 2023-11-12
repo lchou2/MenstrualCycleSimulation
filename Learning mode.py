@@ -1,5 +1,4 @@
 import pygame
-import random
 pygame.init()
 
 # Window dimensions
@@ -57,12 +56,12 @@ PROGESTERONE_SPAWN_INTERVAL = 150
 LH_SPAWN_INTERVAL = 150
 FSH_SPAWN_INTERVAL = 150
 
-#Creating Main Simulation Image
+# Creating Main Simulation Image
 backgroundimage = pygame.image.load("Background image.png")
 backgroundimage = pygame.transform.scale(backgroundimage, (755, 760))
 backgroundimage_rect = backgroundimage.get_rect()
 
-#Centuring the image
+# Centering the image
 WINDOW_WIDTH, WINDOW_HEIGHT = window.get_size()
 backgroundimage_x = (WINDOW_WIDTH - backgroundimage_rect.width) // 2
 backgroundimage_y = (WINDOW_HEIGHT - backgroundimage_rect.height) // 2
@@ -106,33 +105,66 @@ time_slider_image = pygame.transform.scale(time_slider_image, (30, 30))
 menstruation_sprite_sheet = pygame.image.load('menstruation sprite sheet.png').convert_alpha()
 menstruation_sprite_sheet = pygame.transform.scale(menstruation_sprite_sheet, (220, 180))
 
-
-
 # Create groups
 follicle_group = pygame.sprite.GroupSingle()
 hormone_group = pygame.sprite.GroupSingle()
-slider_group = pygame.sprite.GroupSingle()
+slider_group = pygame.sprite.Group()
 
-
-
-#Not yet functional.  Hormones will function similar to projectiles in our evil clutches game.
+# Not yet functional.  Hormones will function similar to projectiles in our evil clutches game.
 class Hormone(pygame.sprite.Sprite):
     def __init__(self, image, rect, speed):
+        super().__init__()
         self.image = image
         self.rect = rect
         self.mask = pygame.mask.from_surface(image)
         self.speed = speed
 
-#Not yet functional.  Beginning outline for moving the follicles.  Plan to make the sliders a sub class.
+# Not yet functional.  Beginning outline for moving the follicles.  Plan to make the sliders a subclass.
 class Follicle(pygame.sprite.Sprite):
     def __init__(self,image,rect):
+        super().__init__()
         self.image = image
         self.rect = rect
         self.mask = pygame.mask.from_surface(image)
 
+    #if pygame.event.type == MOUSEBUTTONDOWN:
+        #if follicle.collidepoint(event.pos):
+            # moving = True
+        #elif event.type == MOUSEBUTTONUP:
+            #moving = False
+        #elif pygame.event.type == MOUSEMOTION and moving:
+            #follicle.move_ip(event.rel)
+
+class Slider(pygame.sprite.Sprite):
+    def __init__(self, image, pos: tuple, size: tuple, initial_val: float, min: int, max: int):
+        super().__init__()
+        self.image = image
+        self.pos = pos
+        self.size = size
+        self.min = min
+        self.max = max
+        self.initial_val = (self.max - self.min) * initial_val  # <- percentage
+        self.rect = self.image.get_rect()
+        self.rect.topleft = self.pos
+
+    def update(self):
+        mouse_x, mouse_y = pygame.mouse.get_pos()
+        if self.rect.collidepoint(mouse_x, mouse_y):
+            print("hello2")
+            if pygame.mouse.get_pressed()[0]:
+                pos = mouse_y
+                print("hello3")
+                if pos > self.min:
+                    pos = self.min
+                if pos < self.max:
+                    pos = self.max
+                self.rect.centery = pos
 
 
 def main():
+    lhslider = Slider(LH_slider_image,(920, 420), (20,20), 0, 420, 300)
+    slider_group.add(lhslider)
+
     running = True
     # Main game loop
     day = 0
@@ -213,6 +245,9 @@ def main():
             window.blit(progesterone_slider_image, (972, 792))
             window.blit(estrogen_slider_image, (902, 792))
             pygame.display.update()
+
+        slider_group.draw(window)
+        slider_group.update()
 
         pygame.display.update()
 
