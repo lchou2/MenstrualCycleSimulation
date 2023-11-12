@@ -105,7 +105,7 @@ time_slider_image = pygame.transform.scale(time_slider_image, (30, 30))
 # Create groups
 follicle_group = pygame.sprite.GroupSingle()
 hormone_group = pygame.sprite.GroupSingle()
-slider_group = pygame.sprite.GroupSingle()
+slider_group = pygame.sprite.Group()
 
 
 
@@ -131,59 +131,41 @@ class Follicle(pygame.sprite.Sprite):
             #moving = False
         #elif pygame.event.type == MOUSEMOTION and moving:
             #follicle.move_ip(event.rel)
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
-class Slider:
+class Slider(pygame.sprite.Sprite):
     def __init__(self, image, pos: tuple, size: tuple, initial_val: float, min: int, max: int):
+        super().__init__()
         self.image = image
         self.pos = pos
         self.size = size
-        self.slider_bottom_pos = self.pos[0] - (size[0] // 2)
-        self.slider_top_pos = self.pos[0] + (size[0] // 2)
-        self.slider_mid_pos = self.pos[1] - (size[1] // 2)
         self.min = min
         self.max = max
-        self.initial_val = (self.slider_top_pos - self.slider_bottom_pos) * initial_val  # <- percentage
+        self.initial_val = (self.max - self.min) * initial_val  # <- percentage
+        self.rect = self.image.get_rect()
+        self.rect.topleft = self.pos
 
-        self.container_rect = pygame.Rect(self.slider_bottom_pos, self.slider_top_pos, self.size[0], self.size[1]) # bounds of slider
-        self.button_rect = self.image.get_rect()
-        #self.button_rect = pygame.Rect(self.slider_bottom_pos + self.initial_val - 5, self.slider_mid_pos, 10, self.size[1]) button --> needs to be image and not drawn
-
-    def move_slider(self, mouse_pos):
-        self.mouse_pos = pygame.mouse.get_pos()
-        self.mouse = pygame.mouse.get_pressed()
-        pos = mouse_pos[0]
-        if pos < self.slider_bottom_pos:
-            pos = self.slider_bottom_pos
-        if pos > self.slider_top_pos:
-            pos = self.slider_top_pos
-        self.button_rect.centerx = pos
-
-<<<<<<< Updated upstream
-    def display(self):
-        window.blit(self)
-=======
-    def 
+    def update(self):
+        mouse_x, mouse_y = pygame.mouse.get_pos()
+        if self.rect.collidepoint(mouse_x, mouse_y):
+            print("hello2")
+            if pygame.mouse.get_pressed()[0]:
+                pos = mouse_y
+                print("hello3")
+                if pos > self.min:
+                    pos = self.min
+                if pos < self.max:
+                    pos = self.max
+                self.rect.centery = pos
 
 
 
-
-
->>>>>>> Stashed changes
-        
 
 # Dimensions of the sprites
 CL_LARGE_WIDTH = 30
 
 def main():
-<<<<<<< Updated upstream
-    lhslider = (LH_slider_image, (940,420), (20,20), 0, (940, 990))
-=======
+    lhslider = Slider(LH_slider_image,(920, 420), (20,20), 0, 420, 300)
+    slider_group.add(lhslider)
 
-    lhslider = Slider(LH_slider_image,(920, 420), (20,20), 0, 420, 450)
->>>>>>> Stashed changes
     running = True
     # Main game loop
     while running:
@@ -193,6 +175,10 @@ def main():
                     running = False
 
         window.blit(backgroundimage, (backgroundimage_x, backgroundimage_y))
+
+        slider_group.draw(window)
+        slider_group.update()
+
         window.blit(follicle_small_image, (650, 900))
         window.blit(follicle_medium_image, (700, 900))
         window.blit(follicle_large_image, (750, 900))
@@ -203,11 +189,6 @@ def main():
         window.blit(egg_cell_image, (890, 610))
         window.blit(time_slider_image, (940, 230))
         window.blit(FSH_slider_image, (970, 420))
-<<<<<<< Updated upstream
-        #window.blit(LH_slider_image, (920, 420))
-=======
-        # window.blit(LH_slider_image, (920, 420))
->>>>>>> Stashed changes
         window.blit(progesterone_slider_image, (972, 792))
         window.blit(estrogen_slider_image, (902, 792))
         pygame.display.update()
