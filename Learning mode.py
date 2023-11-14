@@ -153,10 +153,8 @@ class Slider(pygame.sprite.Sprite):
     def update(self):
         mouse_x, mouse_y = pygame.mouse.get_pos()
         if self.rect.collidepoint(mouse_x, mouse_y):
-            print("hello2")
             if pygame.mouse.get_pressed()[0]:
                 pos = mouse_y
-                print("hello3")
                 if pos > self.min:
                     pos = self.min
                 if pos < self.max:
