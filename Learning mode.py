@@ -127,7 +127,7 @@ class Hormone(pygame.sprite.Sprite):
         self.start = start
         self.end = end
         self.t = 0
-        self.tolerance = 5
+        self.tolerance = 5 #had precision issues when using exact coordinates for the self.kill
 
     def update(self):
         self.t += .01
@@ -140,13 +140,14 @@ class Hormone(pygame.sprite.Sprite):
         
         if abs(x - self.end[0]) < self.tolerance and abs(y - self.end[1]) < self.tolerance:
             self.kill()
-        #self.spawn_hormones()
+        self.spawn_hormones()
     
-    #def spawn_hormones(self):
-        #current_time = pygame.time.get_ticks()
-        #if current_time - spawn_timer > spawn_interval:
-            #new_Hormone = Hormone(self.image, self.start, self.end)
-            #hormone_group.add(new_Hormone)
+    def spawn_hormones(self):
+        current_time = pygame.time.get_ticks()
+        if len(hormone_group) < 16 and current_time - spawn_timer > spawn_interval:
+            new_Hormone = Hormone(self.image, self.start, self.end)
+            hormone_group.add(new_Hormone)
+            self.spawn_timer = current_time
 
 
 
