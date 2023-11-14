@@ -109,20 +109,31 @@ menstruation_sprite_sheet = pygame.image.load('menstruation sprite sheet.png').c
 menstruation_sprite_sheet = pygame.transform.scale(menstruation_sprite_sheet, (220, 180))
 
 # Create groups
-follicle_group = pygame.sprite.GroupSingle()
-hormone_group = pygame.sprite.GroupSingle()
+follicle_group = pygame.sprite.Group()
+hormone_group = pygame.sprite.Group()
+pituitary_group = pygame.sprite.Group()
 slider_group = pygame.sprite.Group()
 
 # Not yet functional.  Hormones will function similar to projectiles in our evil clutches game.
 class Hormone(pygame.sprite.Sprite):
-    def __init__(self, image, rect, speed, start, end):
+    def __init__(self, image, start: tuple, end:tuple):
         super().__init__()
         self.image = image
-        self.rect = self.image.get_rect
-        self.speed = speed
+        self.rect = self.image.get_rect()
         self.start = start
         self.end = end
         self.t = 0
+
+    def update(self):
+        self.t += .01
+        if self.t >1:
+            self.t = 0
+        
+        x = (1-self.t) * self.start[0] + self.t * self.end[0]
+        y = (1-self.t)*self.start[1]+self.t*self.end[1]
+        self.rect.center = (int(x), int(y))
+
+
 
 # Not yet functional.  Beginning outline for moving the follicles.  Plan to make the sliders a subclass.
 class Follicle(pygame.sprite.Sprite):
@@ -219,6 +230,11 @@ def main():
         25: (1083, 597),
     }
 
+    estrogen = Hormone(estrogen_molecule_image, (905,631),(871, 382))
+    hormone_group.add(estrogen)
+    lhormone = Hormone(LH_molecule_image, (1044,391),(974,631))
+    hormone_group.add(lhormone)
+
     running = True
     # Main game loop
     day = 0
@@ -274,6 +290,8 @@ def main():
 
         slider_group.draw(window)
         slider_group.update()
+        hormone_group.draw(window)
+        hormone_group.update()
 
         pygame.display.update()
 
