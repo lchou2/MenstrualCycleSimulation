@@ -57,6 +57,10 @@ PROGESTERONE_SPAWN_INTERVAL = 150
 LH_SPAWN_INTERVAL = 150
 FSH_SPAWN_INTERVAL = 150
 
+#Timers for hormone spawns
+spawn_timer = pygame.time.get_ticks()
+spawn_interval = 1000 
+
 # Creating Main Simulation Image
 backgroundimage = pygame.image.load("Background image.png")
 backgroundimage = pygame.transform.scale(backgroundimage, (755, 760))
@@ -123,6 +127,7 @@ class Hormone(pygame.sprite.Sprite):
         self.start = start
         self.end = end
         self.t = 0
+        self.tolerance = 5
 
     def update(self):
         self.t += .01
@@ -132,6 +137,16 @@ class Hormone(pygame.sprite.Sprite):
         x = (1-self.t) * self.start[0] + self.t * self.end[0]
         y = (1-self.t)*self.start[1]+self.t*self.end[1]
         self.rect.center = (int(x), int(y))
+        
+        if abs(x - self.end[0]) < self.tolerance and abs(y - self.end[1]) < self.tolerance:
+            self.kill()
+        #self.spawn_hormones()
+    
+    #def spawn_hormones(self):
+        #current_time = pygame.time.get_ticks()
+        #if current_time - spawn_timer > spawn_interval:
+            #new_Hormone = Hormone(self.image, self.start, self.end)
+            #hormone_group.add(new_Hormone)
 
 
 
@@ -234,6 +249,7 @@ def main():
     hormone_group.add(estrogen)
     lhormone = Hormone(LH_molecule_image, (1044,391),(974,631))
     hormone_group.add(lhormone)
+
 
     running = True
     # Main game loop
