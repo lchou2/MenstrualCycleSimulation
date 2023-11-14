@@ -58,8 +58,10 @@ PROGESTERONE_SPAWN_INTERVAL = 150
 LH_SPAWN_INTERVAL = 150
 FSH_SPAWN_INTERVAL = 150
 
-#Creating Main Simulation Image
+
+# Creating Main Simulation Image
 backgroundimage = pygame.image.load("Background image.png")
+backgroundimage = pygame.transform.scale(backgroundimage, (755, 760))
 backgroundimage_rect = backgroundimage.get_rect()
 
 #Centering the image
@@ -141,14 +143,13 @@ class Follicle(pygame.sprite.Sprite):
         #elif pygame.event.type == MOUSEMOTION and moving:
             #follicle.move_ip(event.rel)
 class Slider(pygame.sprite.Sprite):
-    def __init__(self, image, pos: tuple, size: tuple, initial_val: float, min: int, max: int):
+    def __init__(self, image, pos: tuple, size: tuple, min: int, max: int):
         super().__init__()
         self.image = image
         self.pos = pos
         self.size = size
         self.min = min
         self.max = max
-        self.initial_val = self.pos[1] // (self.max - self.min)  # <- percentage
         self.rect = self.image.get_rect()
         self.rect.topleft = self.pos
 
@@ -170,10 +171,10 @@ class Slider(pygame.sprite.Sprite):
 CL_LARGE_WIDTH = 30
 
 def main():
-    lhslider = Slider(LH_slider_image,(920, 425), (15,15), 0, 425, 345)
-    fhsslider = Slider(FSH_slider_image, (970,420), (15,15),0, 420,340)
-    eslider = Slider(estrogen_slider_image, (902,792),(15,15),0,792, 730)
-    pslider = Slider(progesterone_slider_image, (972, 792), (15,15),0,792, 730)
+    lhslider = Slider(LH_slider_image,(920, 425), (15,15), 425, 345)
+    fhsslider = Slider(FSH_slider_image, (970,420), (15,15), 420,340)
+    eslider = Slider(estrogen_slider_image, (902,792),(15,15),792, 730)
+    pslider = Slider(progesterone_slider_image, (972, 792), (15,15),792, 730)
     slider_group.add(lhslider)
     slider_group.add(fhsslider)
     slider_group.add(eslider)
