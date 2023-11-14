@@ -115,12 +115,14 @@ slider_group = pygame.sprite.Group()
 
 # Not yet functional.  Hormones will function similar to projectiles in our evil clutches game.
 class Hormone(pygame.sprite.Sprite):
-    def __init__(self, image, rect, speed):
+    def __init__(self, image, rect, speed, start, end):
         super().__init__()
         self.image = image
-        self.rect = rect
-        self.mask = pygame.mask.from_surface(image)
+        self.rect = self.image.get_rect
         self.speed = speed
+        self.start = start
+        self.end = end
+        self.t = 0
 
 # Not yet functional.  Beginning outline for moving the follicles.  Plan to make the sliders a subclass.
 class Follicle(pygame.sprite.Sprite):
