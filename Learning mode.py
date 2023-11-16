@@ -73,14 +73,17 @@ backgroundimage_y = (WINDOW_HEIGHT - backgroundimage_rect.height) // 2
 
 # Load static images and scale images
 background_image = pygame.image.load('Background image.png').convert_alpha()
+
 cl_large_image = pygame.image.load('corpus leuteum large.png').convert_alpha()
 cl_large_image = pygame.transform.scale(cl_large_image, (50, 50))
 cl_medium_image = pygame.image.load('corpus leuteum medium.png').convert_alpha()
 cl_medium_image = pygame.transform.scale(cl_medium_image, (40, 40))
 cl_small_image = pygame.image.load('corpus leuteum small.png').convert_alpha()
 cl_small_image = pygame.transform.scale(cl_small_image, (30, 30))
+
 egg_cell_image = pygame.image.load('egg cell.png').convert_alpha()
 egg_cell_image = pygame.transform.scale(egg_cell_image, (20, 20))
+
 estrogen_molecule_image = pygame.image.load('estrogen molecule.png').convert_alpha()
 estrogen_molecule_image = pygame.transform.scale(estrogen_molecule_image, (10, 10))
 progesterone_molecule_image = pygame.image.load('progesterone molecule.png').convert_alpha()
@@ -89,6 +92,7 @@ FSH_molecule_image = pygame.image.load('FSH molecule.png').convert_alpha()
 FSH_molecule_image = pygame.transform.scale(FSH_molecule_image, (10, 10))
 LH_molecule_image = pygame.image.load('LH molecule.png').convert_alpha()
 LH_molecule_image = pygame.transform.scale(LH_molecule_image, (10, 10))
+
 follicle_ovulates_image = pygame.image.load('follicle ovulates.png').convert_alpha()
 follicle_ovulates_image = pygame.transform.scale(follicle_ovulates_image, (50, 50))
 follicle_large_image = pygame.image.load('follicle large.png').convert_alpha()
@@ -97,6 +101,7 @@ follicle_medium_image = pygame.image.load('follicle medium.png').convert_alpha()
 follicle_medium_image = pygame.transform.scale(follicle_medium_image, (40, 40))
 follicle_small_image = pygame.image.load('follicle small.png').convert_alpha()
 follicle_small_image = pygame.transform.scale(follicle_small_image, (30, 30))
+
 LH_slider_image = pygame.image.load('LH slider.png').convert_alpha()
 LH_slider_image = pygame.transform.scale(LH_slider_image, (15, 15))
 FSH_slider_image = pygame.image.load('FSH slider.png').convert_alpha()
@@ -107,10 +112,30 @@ progesterone_slider_image = pygame.image.load('progesterone slider.png').convert
 progesterone_slider_image = pygame.transform.scale(progesterone_slider_image, (15, 15))
 time_slider_image = pygame.image.load('time slider.png').convert_alpha()
 time_slider_image = pygame.transform.scale(time_slider_image, (30, 30))
-uterine_lining_sprite_sheet = pygame.image.load('uterine lining sprite sheet.png').convert_alpha()
-uterine_lining_sprite_sheet = pygame.transform.scale(uterine_lining_sprite_sheet, (440, 100))
-menstruation_sprite_sheet = pygame.image.load('menstruation sprite sheet.png').convert_alpha()
-menstruation_sprite_sheet = pygame.transform.scale(menstruation_sprite_sheet, (220, 180))
+
+uterine_lining_1= pygame.image.load('uterine lining 1.png').convert_alpha()
+uterine_lining_1 = pygame.transform.scale(uterine_lining_1, (73, 100))
+uterine_lining_2= pygame.image.load('uterine lining 2.png').convert_alpha()
+uterine_lining_2 = pygame.transform.scale(uterine_lining_2, (73, 100))
+uterine_lining_3= pygame.image.load('uterine lining 3.png').convert_alpha()
+uterine_lining_3 = pygame.transform.scale(uterine_lining_3, (73, 100))
+uterine_lining_4= pygame.image.load('uterine lining 4.png').convert_alpha()
+uterine_lining_4 = pygame.transform.scale(uterine_lining_4, (73, 100))
+uterine_lining_5= pygame.image.load('uterine lining 5.png').convert_alpha()
+uterine_lining_5 = pygame.transform.scale(uterine_lining_5, (73, 100))
+uterine_lining_6= pygame.image.load('uterine lining 6.png').convert_alpha()
+uterine_lining_6 = pygame.transform.scale(uterine_lining_6, (73, 100))
+
+menstruation_1 = pygame.image.load('menstruation 1.png').convert_alpha()
+menstruation_1 = pygame.transform.scale(menstruation_1, (45, 180))
+menstruation_2 = pygame.image.load('menstruation 2.png').convert_alpha()
+menstruation_2 = pygame.transform.scale(menstruation_2, (45, 180))
+menstruation_3 = pygame.image.load('menstruation 3.png').convert_alpha()
+menstruation_3 = pygame.transform.scale(menstruation_3, (45, 180))
+menstruation_4 = pygame.image.load('menstruation 4.png').convert_alpha()
+menstruation_4 = pygame.transform.scale(menstruation_4, (45, 180))
+menstruation_5 = pygame.image.load('menstruation 5.png').convert_alpha()
+menstruation_5 = pygame.transform.scale(menstruation_5, (45, 180))
 
 # Create groups
 follicle_group = pygame.sprite.Group()
@@ -156,12 +181,6 @@ def spawn_hormones(): # global function
         hormone_group.add(new_Hormone3)
         spawn_timer = current_time
 
-
-
-    
-
-
-
 # Not yet functional.  Beginning outline for moving the follicles.  Plan to make the sliders a subclass.
 class Follicle(pygame.sprite.Sprite):
     def __init__(self,image,rect):
@@ -201,66 +220,96 @@ class Slider(pygame.sprite.Sprite):
                     pos = self.max
                 self.rect.centery = pos
 
+# Time slider dictionary of coordinates
+# to center time_slider subtract 17 from each coordinate
+time_slider = {
+    0:(940, 232),
+    1:(1000, 238),
+    2: (1040, 245),
+    3: (1093, 271),
+    4: (1133, 297),
+    5: (1170, 343),
+    6: (1200, 384),
+    7: (1222, 435),
+    8: (1236, 514),
+    9: (1227, 603),
+    10: (1199, 677),
+    11: (1161, 723),
+    12: (1123, 761),
+    13: (1062, 798),
+    14: (1000, 818),
+    15: (940, 828),
+    16: (867, 814),
+    17: (792, 788),
+    18: (745, 752),
+    19: (707, 715),
+    20: (683, 681),
+    21: (653, 615),
+    22: (641, 545),
+    23: (648, 460),
+    24: (674, 391),
+    25: (701, 345),
+    26: (744, 298),
+    27: (783, 268),
+    28: (834, 244),
+    29: (886, 232)
+    }
+
+# Egg dictionary of coordinates
+# to center time_slider subtract __ from each coordinate
+egg_movement = {
+    15: (890, 610),
+    16: (878, 609),
+    17: (871, 586),
+    18: (875, 566),
+    19: (902, 549),
+    20: (930, 553),
+    21: (957, 561),
+    22: (991, 573),
+    23: (1014, 580),
+    24: (1051, 584),
+    25: (1083, 597),
+    }
+
+# list of follicle and corpus leuteum images
+follicle_changes = {
+    1: "follicle small.png",
+    2: "follicle medium.png",
+    3: "follicle large.png",
+    4: "follicle ovulates.png",
+    5: "corpus leuteum large.png",
+    6: "corpus leuteum medium.png",
+    7: "corpus leuteum small.png"
+    }
+
+# list of uterine lining images
+uterine_lining_changes = {
+    1: "Uterine lining 1.png",
+    2: "Uterine lining 2.png",
+    3: "Uterine lining 3.png",
+    4: "Uterine lining 4.png",
+    5: "Uterine lining 5.png",
+    6: "Uterine lining 6.png"
+    }
+
+# list of menstruation images
+menstrual_lining_changes = {
+    1: "menstruation 1.png",
+    2: "menstruation 2.png",
+    3: "menstruation 3.png",
+    4: "menstruation 4.png",
+    5: "menstruation 5.png"
+    }
 
 def main():
     # lhslider = Slider(LH_slider_image,(920, 420), (20,20), 0, 420, 340)
     # slider_group.add(lhslider)
 
-    # Time slider dictionary of coordinates
-    # to center time_slider subtract 17 from each coordinate
-    time_slider = {
-        0:(940, 232),
-        1:(1000, 238),
-        2: (1040, 245),
-        3: (1093, 271),
-        4: (1133, 297),
-        5: (1170, 343),
-        6: (1200, 384),
-        7: (1222, 435),
-        8: (1236, 514),
-        9: (1227, 603),
-        10: (1199, 677),
-        11: (1161, 723),
-        12: (1123, 761),
-        13: (1062, 798),
-        14: (1000, 818),
-        15: (940, 828),
-        16: (867, 814),
-        17: (792, 788),
-        18: (745, 752),
-        19: (707, 715),
-        20: (683, 681),
-        21: (653, 615),
-        22: (641, 545),
-        23: (648, 460),
-        24: (674, 391),
-        25: (701, 345),
-        26: (744, 298),
-        27: (783, 268),
-        28: (834, 244),
-        29: (886, 232)
-    }
-
-    # Egg dictionary of coordinates
-    # to center time_slider subtract __ from each coordinate
-    egg_movement = {
-        15: (890, 610),
-        16: (878, 609),
-        17: (871, 586),
-        18: (875, 566),
-        19: (902, 549),
-        20: (930, 553),
-        21: (957, 561),
-        22: (991, 573),
-        23: (1014, 580),
-        24: (1051, 584),
-        25: (1083, 597),
-    }
-
     hormone_group.add(Hormone(estrogen_molecule_image, (905,631),(871, 382), .01))
     hormone_group.add(Hormone(LH_molecule_image, (1044,391),(974,631), .01))
     hormone_group.add(Hormone(progesterone_molecule_image, (923, 609), (883,353),.01))
     hormone_group.add(Hormone(FSH_molecule_image, (1021,357), (963,609),.01))
+
     running = True
     # Main game loop
     day = 0
@@ -299,7 +348,7 @@ def main():
 
         if day == 5:
             window.blit(follicle_medium_image, (910, 610))
-            window.blit(uterine_lining_sprite_sheet, (1062, 587))
+        #    window.blit(uterine_lining_sprite_sheet, (1062, 587))
 
         if day == 10:
             window.blit(follicle_large_image, (910, 610))
@@ -312,7 +361,7 @@ def main():
 
         if day == 25:
             window.blit(cl_small_image, (910, 610))
-            window.blit(menstruation_sprite_sheet, (1072, 585))
+        #    window.blit(menstruation_sprite_sheet, (1072, 585))
 
         slider_group.draw(window)
         slider_group.update()
