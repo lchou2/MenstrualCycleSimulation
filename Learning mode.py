@@ -11,6 +11,10 @@ window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 pygame.display.set_caption("Menstrual Cycle Simulation")
 window.fill((255, 255, 255))
 
+# Destination Coordinates
+UTERUS = (1062, 587)
+OVARY = (905, 610)
+
 # Dimensions of the sprites
 CL_LARGE_WIDTH = 30
 CL_LARGE_HEIGHT = 30
@@ -74,11 +78,11 @@ backgroundimage_y = (WINDOW_HEIGHT - backgroundimage_rect.height) // 2
 # Load static images and scale images
 background_image = pygame.image.load('Background image.png').convert_alpha()
 
-cl_large_image = pygame.image.load('corpus leuteum large.png').convert_alpha()
+cl_large_image = pygame.image.load('corpus luteum large.png').convert_alpha()
 cl_large_image = pygame.transform.scale(cl_large_image, (50, 50))
-cl_medium_image = pygame.image.load('corpus leuteum medium.png').convert_alpha()
+cl_medium_image = pygame.image.load('corpus luteum medium.png').convert_alpha()
 cl_medium_image = pygame.transform.scale(cl_medium_image, (40, 40))
-cl_small_image = pygame.image.load('corpus leuteum small.png').convert_alpha()
+cl_small_image = pygame.image.load('corpus luteum small.png').convert_alpha()
 cl_small_image = pygame.transform.scale(cl_small_image, (30, 30))
 
 egg_cell_image = pygame.image.load('egg cell.png').convert_alpha()
@@ -220,7 +224,7 @@ class Slider(pygame.sprite.Sprite):
                     pos = self.max
                 self.rect.centery = pos
 
-# Time slider dictionary of coordinates
+# Time slider dictionary of coordinates by day
 # to center time_slider subtract 17 from each coordinate
 time_slider = {
     0:(940, 232),
@@ -255,8 +259,7 @@ time_slider = {
     29: (886, 232)
     }
 
-# Egg dictionary of coordinates
-# to center time_slider subtract __ from each coordinate
+# Egg dictionary of coordinates by day
 egg_movement = {
     15: (890, 610),
     16: (878, 609),
@@ -271,34 +274,34 @@ egg_movement = {
     25: (1083, 597),
     }
 
-# list of follicle and corpus leuteum images
+# list of follicle & corpus luteum images by day
 follicle_changes = {
-    1: "follicle small.png",
-    2: "follicle medium.png",
-    3: "follicle large.png",
-    4: "follicle ovulates.png",
-    5: "corpus leuteum large.png",
-    6: "corpus leuteum medium.png",
-    7: "corpus leuteum small.png"
+    1: follicle_small_image,
+    5: follicle_medium_image,
+    10: follicle_large_image,
+    15: follicle_ovulates_image,
+    16: cl_large_image,
+    20: cl_medium_image,
+    25: cl_small_image
     }
 
-# list of uterine lining images
+# list of uterine lining images by day
 uterine_lining_changes = {
-    1: "Uterine lining 1.png",
-    2: "Uterine lining 2.png",
-    3: "Uterine lining 3.png",
-    4: "Uterine lining 4.png",
-    5: "Uterine lining 5.png",
-    6: "Uterine lining 6.png"
+    6: uterine_lining_1,
+    9: uterine_lining_2,
+    12: uterine_lining_3,
+    16: uterine_lining_4,
+    20: uterine_lining_5,
+    24: uterine_lining_6
     }
 
-# list of menstruation images
+# list of menstruation images by day
 menstrual_lining_changes = {
-    1: "menstruation 1.png",
-    2: "menstruation 2.png",
-    3: "menstruation 3.png",
-    4: "menstruation 4.png",
-    5: "menstruation 5.png"
+    0: menstruation_1,
+    1: menstruation_2,
+    2: menstruation_3,
+    3: menstruation_4,
+    4: menstruation_5
     }
 
 def main():
@@ -313,6 +316,8 @@ def main():
     running = True
     # Main game loop
     day = 0
+    first_cycle = True
+
     while running:
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
@@ -322,6 +327,7 @@ def main():
                     day = day + 1
                     if day > 29:
                         day = 0
+                        first_cycle = False
             if pygame.mouse.get_pressed()[0]:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
                 pos = mouse_x
@@ -337,31 +343,21 @@ def main():
         if day in time_slider.keys() :
             window.blit(time_slider_image, time_slider[day])
 
+        if day in follicle_changes.keys() :
+            window.blit(follicle_changes[day], OVARY)
+
         if day in egg_movement.keys() :
             window.blit(egg_cell_image, egg_movement[day])
 
+        if day in uterine_lining_changes.keys() :
+            window.blit(uterine_lining_changes[day], UTERUS)
+
+        if first_cycle == False:
+            if day in menstrual_lining_changes.keys():
+                window.blit(menstrual_lining_changes[day], UTERUS)
+
     # time slider circle code - too mathematical for our background image
     #    window.blit(time_slider_image, (math.sin(day/28*360)*300+940,-math.cos(day/28*360)*300+532))
-
-        if day < 5:
-            window.blit(follicle_small_image, (905, 610))
-
-        if day == 5:
-            window.blit(follicle_medium_image, (910, 610))
-        #    window.blit(uterine_lining_sprite_sheet, (1062, 587))
-
-        if day == 10:
-            window.blit(follicle_large_image, (910, 610))
-
-        if day == 15:
-            window.blit(follicle_ovulates_image, (910, 610))
-
-        if day == 20:
-            window.blit(cl_medium_image, (910, 610))
-
-        if day == 25:
-            window.blit(cl_small_image, (910, 610))
-        #    window.blit(menstruation_sprite_sheet, (1072, 585))
 
         slider_group.draw(window)
         slider_group.update()
