@@ -120,17 +120,18 @@ slider_group = pygame.sprite.Group()
 
 # Not yet functional.  Hormones will function similar to projectiles in our evil clutches game.
 class Hormone(pygame.sprite.Sprite):
-    def __init__(self, image, start: tuple, end:tuple):
+    def __init__(self, image, start: tuple, end:tuple, speed):
         super().__init__()
         self.image = image
         self.rect = self.image.get_rect()
         self.start = start
         self.end = end
         self.t = 0
-        self.tolerance = 5
-
+        self.speed = speed
+        self.tolerance = 5 #had precision issues when using exact coordinates for the self.kill
+        
     def update(self):
-        self.t += .01
+        self.t += self.speed
         if self.t >1:
             self.t = 0
         
@@ -140,13 +141,20 @@ class Hormone(pygame.sprite.Sprite):
         
         if abs(x - self.end[0]) < self.tolerance and abs(y - self.end[1]) < self.tolerance:
             self.kill()
-        #self.spawn_hormones()
     
-    #def spawn_hormones(self):
-        #current_time = pygame.time.get_ticks()
-        #if current_time - spawn_timer > spawn_interval:
-            #new_Hormone = Hormone(self.image, self.start, self.end)
-            #hormone_group.add(new_Hormone)
+def spawn_hormones(): # global function
+    global spawn_timer
+    current_time = pygame.time.get_ticks()
+    if len(hormone_group) < 16 and current_time - spawn_timer > spawn_interval:
+        new_Hormone = Hormone(LH_molecule_image, (1044,391),(974,631), .01)
+        new_Hormone1 = Hormone(estrogen_molecule_image, (905,631),(871, 382), .01)
+        hormone_group.add(new_Hormone)
+        hormone_group.add(new_Hormone1)
+        spawn_timer = current_time
+
+
+
+    
 
 
 
@@ -245,10 +253,8 @@ def main():
         25: (1083, 597),
     }
 
-    estrogen = Hormone(estrogen_molecule_image, (905,631),(871, 382))
-    hormone_group.add(estrogen)
-    lhormone = Hormone(LH_molecule_image, (1044,391),(974,631))
-    hormone_group.add(lhormone)
+    hormone_group.add(Hormone(estrogen_molecule_image, (905,631),(871, 382), .01))
+    hormone_group.add(Hormone(LH_molecule_image, (1044,391),(974,631), .01))
 
 
     running = True
@@ -306,6 +312,7 @@ def main():
 
         slider_group.draw(window)
         slider_group.update()
+        spawn_hormones()
         hormone_group.draw(window)
         hormone_group.update()
 
