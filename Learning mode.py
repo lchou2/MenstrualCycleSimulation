@@ -148,8 +148,12 @@ def spawn_hormones(): # global function
     if len(hormone_group) < 16 and current_time - spawn_timer > spawn_interval:
         new_Hormone = Hormone(LH_molecule_image, (1044,391),(974,631), .01)
         new_Hormone1 = Hormone(estrogen_molecule_image, (905,631),(871, 382), .01)
+        new_Hormone2 = Hormone(progesterone_molecule_image, (923, 609), (883,353),.01)
+        new_Hormone3 = Hormone(FSH_molecule_image, (1021,357), (963,609),.01)
         hormone_group.add(new_Hormone)
         hormone_group.add(new_Hormone1)
+        hormone_group.add(new_Hormone2)
+        hormone_group.add(new_Hormone3)
         spawn_timer = current_time
 
 
@@ -255,8 +259,8 @@ def main():
 
     hormone_group.add(Hormone(estrogen_molecule_image, (905,631),(871, 382), .01))
     hormone_group.add(Hormone(LH_molecule_image, (1044,391),(974,631), .01))
-
-
+    hormone_group.add(Hormone(progesterone_molecule_image, (923, 609), (883,353),.01))
+    hormone_group.add(Hormone(FSH_molecule_image, (1021,357), (963,609),.01))
     running = True
     # Main game loop
     day = 0
