@@ -12,8 +12,8 @@ pygame.display.set_caption("Menstrual Cycle Simulation")
 window.fill((255, 255, 255))
 
 # Destination Coordinates
-UTERUS = (1062, 587)
-OVARY = (905, 610)
+UTERUS = (1062, 585)
+OVARY = (905, 600)
 
 # Dimensions of the sprites
 CL_LARGE_WIDTH = 30
@@ -101,6 +101,7 @@ follicle_ovulates_image = pygame.image.load('follicle ovulates.png').convert_alp
 follicle_ovulates_image = pygame.transform.scale(follicle_ovulates_image, (50, 50))
 follicle_large_image = pygame.image.load('follicle large.png').convert_alpha()
 follicle_large_image = pygame.transform.scale(follicle_large_image, (50, 50))
+follicle_large_image = pygame.transform.rotate(follicle_large_image, (270))
 follicle_medium_image = pygame.image.load('follicle medium.png').convert_alpha()
 follicle_medium_image = pygame.transform.scale(follicle_medium_image, (40, 40))
 follicle_small_image = pygame.image.load('follicle small.png').convert_alpha()
@@ -131,15 +132,15 @@ uterine_lining_6= pygame.image.load('uterine lining 6.png').convert_alpha()
 uterine_lining_6 = pygame.transform.scale(uterine_lining_6, (73, 100))
 
 menstruation_1 = pygame.image.load('menstruation 1.png').convert_alpha()
-menstruation_1 = pygame.transform.scale(menstruation_1, (45, 180))
+menstruation_1 = pygame.transform.scale(menstruation_1, (70, 200))
 menstruation_2 = pygame.image.load('menstruation 2.png').convert_alpha()
-menstruation_2 = pygame.transform.scale(menstruation_2, (45, 180))
+menstruation_2 = pygame.transform.scale(menstruation_2, (70, 200))
 menstruation_3 = pygame.image.load('menstruation 3.png').convert_alpha()
-menstruation_3 = pygame.transform.scale(menstruation_3, (45, 180))
+menstruation_3 = pygame.transform.scale(menstruation_3, (70, 200))
 menstruation_4 = pygame.image.load('menstruation 4.png').convert_alpha()
-menstruation_4 = pygame.transform.scale(menstruation_4, (45, 180))
+menstruation_4 = pygame.transform.scale(menstruation_4, (70, 200))
 menstruation_5 = pygame.image.load('menstruation 5.png').convert_alpha()
-menstruation_5 = pygame.transform.scale(menstruation_5, (45, 180))
+menstruation_5 = pygame.transform.scale(menstruation_5, (70, 200))
 
 # Create groups
 follicle_group = pygame.sprite.Group()
@@ -261,17 +262,21 @@ time_slider = {
 
 # Egg dictionary of coordinates by day
 egg_movement = {
-    15: (890, 610),
+    15: (890, 615),
     16: (878, 609),
-    17: (871, 586),
-    18: (875, 566),
-    19: (902, 549),
-    20: (930, 553),
-    21: (957, 561),
-    22: (991, 573),
-    23: (1014, 580),
+    17: (868, 586),
+    18: (865, 566),
+    19: (890, 540),
+    20: (925, 545),
+    21: (957, 555),
+    22: (991, 565),
+    23: (1014, 570),
     24: (1051, 584),
-    25: (1083, 597),
+    25: (1088, 597),
+    26: (1088, 625),
+    27: (1088, 645),
+    28: (1088, 665),
+    29: (1088, 685)
     }
 
 # list of follicle & corpus luteum images by day
@@ -317,6 +322,8 @@ def main():
     # Main game loop
     day = 0
     first_cycle = True
+    follicle_image = follicle_changes[1]
+    uterine_image = uterine_lining_changes[6]
 
     while running:
         for event in pygame.event.get():
@@ -344,17 +351,22 @@ def main():
             window.blit(time_slider_image, time_slider[day])
 
         if day in follicle_changes.keys() :
-            window.blit(follicle_changes[day], OVARY)
+            follicle_image = follicle_changes[day]
 
-        if day in egg_movement.keys() :
-            window.blit(egg_cell_image, egg_movement[day])
+        window.blit(follicle_image, OVARY)
 
         if day in uterine_lining_changes.keys() :
-            window.blit(uterine_lining_changes[day], UTERUS)
+            uterine_image = uterine_lining_changes[day]
+
+        if day >=6:
+            window.blit(uterine_image, UTERUS)
 
         if first_cycle == False:
             if day in menstrual_lining_changes.keys():
                 window.blit(menstrual_lining_changes[day], UTERUS)
+
+        if day in egg_movement.keys() :
+            window.blit(egg_cell_image, egg_movement[day])
 
     # time slider circle code - too mathematical for our background image
     #    window.blit(time_slider_image, (math.sin(day/28*360)*300+940,-math.cos(day/28*360)*300+532))
