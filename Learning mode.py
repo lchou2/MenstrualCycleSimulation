@@ -388,7 +388,8 @@ def main():
         if day in follicle_changes.keys() :
             follicle_image = follicle_changes[day]
 
-        window.blit(follicle_image, OVARY)
+        if day > 0 and day <=26:
+            window.blit(follicle_image, OVARY)
 
         if day in uterine_lining_changes.keys() :
             uterine_image = uterine_lining_changes[day]
