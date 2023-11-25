@@ -1,5 +1,6 @@
 import pygame
 import math
+pygame.font.init()
 pygame.init()
 
 # Window dimensions
@@ -344,6 +345,20 @@ hormone_levels = {
     29:	[29, 74, 24, 25]
     }
 
+# explanations to display in a text box by day
+explanation = {
+    5: "Follicle grows and releases estrogen.",
+    10: "Follicle matures. High estrogen levels stimulate the brain to release LH and FSH.  Estrogen also causes the lining of uterus to thicken.",
+    14: "LH and FSH peak. The mature follicle continues to keep estrogen levels high, growing the uterine lining.",
+    15: "High LH and FSH levels cause ovulation. The egg cell moves from the follicle into the fallopian tube.",
+    16: "The follicle becomes the corpus luteum.  The egg drifts through the fallopian tube and is fertilized if sperm are present.",
+    17: "The corpus luteum releases progesterone and estrogen, which inhibits the brain and maintains the lining of the uterus.",
+    20: "Progesterone and estrogen levels peak. The corpus luteum is degenerating.  The egg drifts.",
+    25: "The corpus luteum shrivels until it is used up.  Progesterone and estrogen levels begin to fall. The egg drifts into the uterus.",
+    27: "The unfertilized egg is in the uterus.  Estrogen and Progesterone levels fall dramatically because the corpus luteum is gone.",
+    0: "The low estrogen and progesterone levels cause the uterine lining to be shed (called menstruation). The cycle begins again."
+}
+
 def main():
     # lhslider = Slider(LH_slider_image,(920, 420), (20,20), 0, 420, 340)
     # slider_group.add(lhslider)
@@ -354,13 +369,17 @@ def main():
     hormone_group.add(Hormone(FSH_molecule_image, (1021,357), (963,609),.01))
 
     running = True
+
     # Main game loop
     day = 0
     first_cycle = True
     follicle_image = follicle_changes[1]
     uterine_image = uterine_lining_changes[6]
+    explanatory_text = ""
 
     while running:
+        window.fill ((255,255,255))
+        # set keyboard and mouse inputs
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
@@ -376,31 +395,34 @@ def main():
                 pos2 = mouse_y
                 print(pos, pos2)
 
+        # display background image and hormone sliders
         window.blit(backgroundimage, (backgroundimage_x, backgroundimage_y))
         window.blit(FSH_slider_image, (970, 420))
         window.blit(LH_slider_image, (920, 420))
         window.blit(progesterone_slider_image, (972, 792))
         window.blit(estrogen_slider_image, (902, 792))
 
+        # Set up the font object and draw the text box to the screen
+        font = pygame.font.Font(None, 28)
+        if ((first_cycle and day > 0) or (not first_cycle)) and day in explanation.keys():
+            explanatory_text = explanation[day]
+        explanatory_text_display = font.render(explanatory_text, False, (132,4,132))
+        window.blit(explanatory_text_display, (250, 150))
+
+        # display images, change them according to the day in the cycle
         if day in time_slider.keys() :
             window.blit(time_slider_image, time_slider[day])
-
         if day in follicle_changes.keys() :
             follicle_image = follicle_changes[day]
-
         if day > 0 and day <=26:
             window.blit(follicle_image, OVARY)
-
         if day in uterine_lining_changes.keys() :
             uterine_image = uterine_lining_changes[day]
-
         if day >=6:
             window.blit(uterine_image, UTERUS)
-
         if first_cycle == False:
             if day in menstrual_lining_changes.keys():
                 window.blit(menstrual_lining_changes[day], UTERUS)
-
         if day in egg_movement.keys() :
             window.blit(egg_cell_image, egg_movement[day])
 
