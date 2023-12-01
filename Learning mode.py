@@ -345,8 +345,8 @@ hormone_levels = {
     29:	[29, 74, 24, 25]
     }
 
-# explanations to display in a text box by day
-explanation = {
+# captions to display in a text box by day
+caption = {
     5: "Follicle grows and releases estrogen.",
     10: "Follicle matures. High estrogen levels stimulate the brain to release LH and FSH.  Estrogen also causes the lining of uterus to thicken.",
     14: "LH and FSH peak. The mature follicle continues to keep estrogen levels high, growing the uterine lining.",
@@ -375,7 +375,7 @@ def main():
     first_cycle = True
     follicle_image = follicle_changes[1]
     uterine_image = uterine_lining_changes[6]
-    explanatory_text = ""
+    caption_text = ""
 
     while running:
         window.fill ((255,255,255))
@@ -404,10 +404,10 @@ def main():
 
         # Set up the font object and draw the text box to the screen
         font = pygame.font.Font(None, 28)
-        if ((first_cycle and day > 0) or (not first_cycle)) and day in explanation.keys():
-            explanatory_text = explanation[day]
-        explanatory_text_display = font.render(explanatory_text, False, (132,4,132))
-        window.blit(explanatory_text_display, (250, 150))
+        if ((first_cycle and day > 0) or (not first_cycle)) and day in caption.keys():
+            caption_text = caption[day]
+        caption_text_box = font.render(caption_text, False, (132,4,132))
+        window.blit(caption_text_box, (250, 150))
 
         # display images, change them according to the day in the cycle
         if day in time_slider.keys() :
