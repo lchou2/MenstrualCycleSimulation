@@ -145,7 +145,10 @@ menstruation_5 = pygame.transform.scale(menstruation_5, (70, 200))
 
 # Create groups
 follicle_group = pygame.sprite.Group()
-hormone_group = pygame.sprite.Group()
+estrogen_group = pygame.sprite.Group()
+lh_group = pygame.sprite.Group()
+progesterone_group = pygame.sprite.Group()
+fsh_group = pygame.sprite.Group()
 pituitary_group = pygame.sprite.Group()
 slider_group = pygame.sprite.Group()
 
@@ -176,15 +179,15 @@ class Hormone(pygame.sprite.Sprite):
 def spawn_hormones(): # global function
     global spawn_timer
     current_time = pygame.time.get_ticks()
-    if len(hormone_group) < 16 and current_time - spawn_timer > spawn_interval:
+    if len(estrogen_group) < 5 and current_time - spawn_timer > spawn_interval:
         new_Hormone = Hormone(LH_molecule_image, (1044,391),(974,631), .01)
         new_Hormone1 = Hormone(estrogen_molecule_image, (905,631),(871, 382), .01)
         new_Hormone2 = Hormone(progesterone_molecule_image, (923, 609), (883,353),.01)
         new_Hormone3 = Hormone(FSH_molecule_image, (1021,357), (963,609),.01)
-        hormone_group.add(new_Hormone)
-        hormone_group.add(new_Hormone1)
-        hormone_group.add(new_Hormone2)
-        hormone_group.add(new_Hormone3)
+        lh_group.add(new_Hormone)
+        estrogen_group.add(new_Hormone1)
+        progesterone_group.add(new_Hormone2)
+        fsh_group.add(new_Hormone3)
         spawn_timer = current_time
 
 # Not yet functional.  Beginning outline for moving the follicles.  Plan to make the sliders a subclass.
@@ -345,7 +348,42 @@ hormone_levels = {
     29:	[29, 74, 24, 25]
     }
 
+
 # captions to display in a text box by day
+
+slider_location = {
+    0: [394.6, 403.2, 775.88, 762.24],
+    1: [399.4, 405.02, 772.16, 752.94],
+    2: [403.4, 406.4, 772.16, 752.94],
+    3: [402.6, 405.92, 772.16, 752.94],
+    4: [402.6, 405.92, 772.16, 752.94],
+    5: [401.8, 405.92, 772.16, 752.94],
+    6: [400.2, 404.8, 772.16, 752.94],
+    7: [400.2, 404.8, 772.16, 752.94],
+    8: [399.4, 404.8, 772.16, 756.04],
+    9: [389.0, 404.0, 772.16, 759.14],
+    10: [378.6, 404.0, 772.16, 762.24],
+    11: [368.2, 404.0, 772.16, 765.34],
+    12: [358.6, 403.52, 752.94, 748.6],
+    13: [355.4, 403.52, 730.0, 730.0],
+    14: [368.2, 399.2, 752.94, 748.6],
+    15: [378.6, 392.8, 765.96, 765.34],
+    16: [381.8, 386.08, 767.2, 766.58],
+    17: [377.0, 366.32, 768.44, 767.2],
+    18: [373.8, 352.48, 769.68, 767.82],
+    19: [361.8, 345.6, 770.3, 768.44],
+    20: [355.4, 342.4, 770.92, 769.68],
+    21: [348.2, 340.0, 771.54, 770.3],
+    22: [345.8, 340.0, 772.16, 770.12],
+    23: [345.0, 340.0, 772.78, 770.74],
+    24: [353.0, 341.6, 773.92, 771.78],
+    25: [363.4, 342.4, 774.64, 772.4],
+    26: [373.8, 348.0, 775.28, 772.94],
+    27: [384.2, 355.36, 775.88, 773.64],
+    28: [394.6, 357.6, 776.5, 774.88],
+    29: [401.8, 360.8, 777.12, 775.5]
+}
+# explanations to display in a text box by day
 captions = {
     5: "Follicle grows and releases estrogen.",
     10: "Follicle matures. High estrogen levels stimulate the brain to release LH and FSH.  Estrogen also causes the lining of uterus to thicken.",
@@ -363,10 +401,10 @@ def main():
     # lhslider = Slider(LH_slider_image,(920, 420), (20,20), 0, 420, 340)
     # slider_group.add(lhslider)
 
-    hormone_group.add(Hormone(estrogen_molecule_image, (905,631),(871, 382), .01))
-    hormone_group.add(Hormone(LH_molecule_image, (1044,391),(974,631), .01))
-    hormone_group.add(Hormone(progesterone_molecule_image, (923, 609), (883,353),.01))
-    hormone_group.add(Hormone(FSH_molecule_image, (1021,357), (963,609),.01))
+    estrogen_group.add(Hormone(estrogen_molecule_image, (905,631),(871, 382), .01))
+    lh_group.add(Hormone(LH_molecule_image, (1044,391),(974,631), .01))
+    progesterone_group.add(Hormone(progesterone_molecule_image, (923, 609), (883,353),.01))
+    fsh_group.add(Hormone(FSH_molecule_image, (1021,357), (963,609),.01))
 
     running = True
 
@@ -397,10 +435,10 @@ def main():
 
         # display background image and hormone sliders
         window.blit(backgroundimage, (backgroundimage_x, backgroundimage_y))
-        window.blit(FSH_slider_image, (970, 420))
-        window.blit(LH_slider_image, (920, 420))
-        window.blit(progesterone_slider_image, (972, 792))
-        window.blit(estrogen_slider_image, (902, 792))
+        #window.blit(FSH_slider_image, (975, 420))
+        #window.blit(LH_slider_image, (920, 420))
+        #window.blit(progesterone_slider_image, (975, 792))
+        #window.blit(estrogen_slider_image, (902, 792))
 
         # Set up the font object and draw the text box to the screen
         font = pygame.font.Font(None, 28)
@@ -425,6 +463,11 @@ def main():
                 window.blit(menstrual_lining_changes[day], UTERUS)
         if day in egg_movement.keys() :
             window.blit(egg_cell_image, egg_movement[day])
+        if day in slider_location.keys() :
+            window.blit(FSH_slider_image, (970, slider_location[day][3]))
+            window.blit(LH_slider_image, (920, slider_location[day][0]))
+            window.blit(progesterone_slider_image, (972, slider_location[day][1]))
+            window.blit(estrogen_slider_image, (902, slider_location[day][2]))
 
     # time slider circle code - too mathematical for our background image
     #    window.blit(time_slider_image, (math.sin(day/28*360)*300+940,-math.cos(day/28*360)*300+532))
@@ -432,8 +475,14 @@ def main():
         slider_group.draw(window)
         slider_group.update()
         spawn_hormones()
-        hormone_group.draw(window)
-        hormone_group.update()
+        estrogen_group.draw(window)
+        progesterone_group.draw(window)
+        lh_group.draw(window)
+        fsh_group.draw(window)
+        estrogen_group.update()
+        progesterone_group.update()
+        lh_group.update()
+        fsh_group.update()
 
         pygame.display.update()
 
