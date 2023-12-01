@@ -433,12 +433,8 @@ def main():
                 pos2 = mouse_y
                 print(pos, pos2)
 
-        # display background image and hormone sliders
+        # display background image 
         window.blit(backgroundimage, (backgroundimage_x, backgroundimage_y))
-        #window.blit(FSH_slider_image, (975, 420))
-        #window.blit(LH_slider_image, (920, 420))
-        #window.blit(progesterone_slider_image, (975, 792))
-        #window.blit(estrogen_slider_image, (902, 792))
 
         # Set up the font object and draw the text box to the screen
         font = pygame.font.Font(None, 28)
