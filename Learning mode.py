@@ -346,7 +346,7 @@ hormone_levels = {
     }
 
 # captions to display in a text box by day
-caption = {
+captions = {
     5: "Follicle grows and releases estrogen.",
     10: "Follicle matures. High estrogen levels stimulate the brain to release LH and FSH.  Estrogen also causes the lining of uterus to thicken.",
     14: "LH and FSH peak. The mature follicle continues to keep estrogen levels high, growing the uterine lining.",
@@ -404,8 +404,8 @@ def main():
 
         # Set up the font object and draw the text box to the screen
         font = pygame.font.Font(None, 28)
-        if ((first_cycle and day > 0) or (not first_cycle)) and day in caption.keys():
-            caption_text = caption[day]
+        if ((first_cycle and day > 0) or (not first_cycle)) and day in captions.keys():
+            caption_text = captions[day]
         caption_text_box = font.render(caption_text, False, (132,4,132))
         window.blit(caption_text_box, (250, 150))
 
