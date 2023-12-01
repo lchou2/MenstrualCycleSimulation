@@ -51,10 +51,10 @@ FSH_SLIDER_WIDTH = 10
 FSH_SLIDER_HEIGHT = 10
 
 # Speeds of sprites
-ESTROGEN_SPEED = 5
-PROGESTERONE_SPEED = 5
-LH_SPEED = -5
-FSH_SPEED = -5
+estrogen_speed = 0.01  # Set the speed for estrogen group
+progesterone_speed = 0.01  # Set the speed for progesterone group
+lh_speed = 0.01  # Set the speed for LH group
+fsh_speed = 0.01  # Set the speed for FSH group
 
 ANIMATION_INTERVAL = 200
 ESTROGEN_SPAWN_INTERVAL = 150
@@ -176,20 +176,30 @@ class Hormone(pygame.sprite.Sprite):
         if abs(x - self.end[0]) < self.tolerance and abs(y - self.end[1]) < self.tolerance:
             self.kill()
     
-def spawn_hormones(): # global function
+def spawn_hormones():
     global spawn_timer
+    global estrogen_speed
+    global estrogen_speed
+    global progesterone_speed 
+    global lh_speed 
+    global fsh_speed 
     current_time = pygame.time.get_ticks()
-    if len(estrogen_group) < 5 and current_time - spawn_timer > spawn_interval:
-        new_Hormone = Hormone(LH_molecule_image, (1044,391),(974,631), .01)
-        new_Hormone1 = Hormone(estrogen_molecule_image, (905,631),(871, 382), .01)
-        new_Hormone2 = Hormone(progesterone_molecule_image, (923, 609), (883,353),.01)
-        new_Hormone3 = Hormone(FSH_molecule_image, (1021,357), (963,609),.01)
+    
+ 
+
+    
+    if len(estrogen_group) < 15 and current_time - spawn_timer > spawn_interval:
+        new_Hormone = Hormone(LH_molecule_image, (1044, 391), (974, 631), lh_speed)
+        new_Hormone1 = Hormone(estrogen_molecule_image, (905, 631), (871, 382), estrogen_speed)
+        new_Hormone2 = Hormone(progesterone_molecule_image, (923, 609), (883, 353), progesterone_speed)
+        new_Hormone3 = Hormone(FSH_molecule_image, (1021, 357), (963, 609), fsh_speed)
+        
         lh_group.add(new_Hormone)
         estrogen_group.add(new_Hormone1)
         progesterone_group.add(new_Hormone2)
         fsh_group.add(new_Hormone3)
+        
         spawn_timer = current_time
-
 # Not yet functional.  Beginning outline for moving the follicles.  Plan to make the sliders a subclass.
 class Follicle(pygame.sprite.Sprite):
     def __init__(self,image,rect):
@@ -313,40 +323,40 @@ menstrual_lining_changes = {
     4: menstruation_5
     }
 
-# list of hormone levels (slider %) by day
-# day: estrogen %, progesterone %, LH %, FSH %
+
+#hormone levels for speed variables
 hormone_levels = {
-    0: [38, 21, 26, 48],
-    1: [32, 19, 32, 63],
-    2: [27, 17, 32, 63],
-    3: [28, 18, 32, 63],
-    4:	[28, 18, 32, 63],
-    5:	[29, 18, 32, 63],
-    6:	[31, 19, 32, 63],
-    7:	[31, 19, 32, 63],
-    8:	[32, 19, 32, 58],
-    9:	[45, 20, 32, 53],
-    10:	[58, 20, 32, 48],
-    11:	[71, 20, 32, 43],
-    12:	[83, 21, 63, 70],
-    13:	[87, 21, 100, 100],
-    14:	[71, 26, 63, 70],
-    15:	[58, 34, 42, 43],
-    16:	[54, 43, 40, 41],
-    17:	[60, 69, 38, 40],
-    18:	[64, 86, 36, 39],
-    19:	[79, 95, 35, 38],
-    20:	[87, 97, 34, 36],
-    21:	[96, 100, 33, 35],
-    22:	[99, 100, 32, 34],
-    23:	[100, 100, 31, 33],
-    24:	[90, 98, 29, 31],
-    25:	[77, 97, 28, 30],
-    26:	[64, 90, 27, 29],
-    27:	[51, 83, 26, 28],
-    28:	[38, 78, 25, 26],
-    29:	[29, 74, 24, 25]
-    }
+    0: [0.0038, 0.0021, 0.0026, 0.0048],
+    1: [0.0032, 0.0019, 0.0032, 0.0063],
+    2: [0.0027, 0.0017, 0.0032, 0.0063],
+    3: [0.0028, 0.0018, 0.0032, 0.0063],
+    4: [0.0028, 0.0018, 0.0032, 0.0063],
+    5: [0.0029, 0.0018, 0.0032, 0.0063],
+    6: [0.0031, 0.0019, 0.0032, 0.0063],
+    7: [0.0031, 0.0019, 0.0032, 0.0063],
+    8: [0.0032, 0.0019, 0.0032, 0.0058],
+    9: [0.0045, 0.0020, 0.0032, 0.0053],
+    10: [0.0058, 0.0020, 0.0032, 0.0048],
+    11: [0.0071, 0.0020, 0.0032, 0.0043],
+    12: [0.0083, 0.0021, 0.0063, 0.0070],
+    13: [0.0087, 0.0021, 0.0100, 0.0100],
+    14: [0.0071, 0.0026, 0.0063, 0.0070],
+    15: [0.0058, 0.0034, 0.0042, 0.0043],
+    16: [0.0054, 0.0043, 0.0040, 0.0041],
+    17: [0.0060, 0.0069, 0.0038, 0.0040],
+    18: [0.0064, 0.0086, 0.0036, 0.0039],
+    19: [0.0079, 0.0095, 0.0035, 0.0038],
+    20: [0.0087, 0.0097, 0.0034, 0.0036],
+    21: [0.0096, 0.0100, 0.0033, 0.0035],
+    22: [0.0099, 0.0100, 0.0032, 0.0034],
+    23: [0.0100, 0.0100, 0.0031, 0.0033],
+    24: [0.0090, 0.0098, 0.0029, 0.0031],
+    25: [0.0077, 0.0097, 0.0028, 0.0030],
+    26: [0.0064, 0.0090, 0.0027, 0.0029],
+    27: [0.0051, 0.0083, 0.0026, 0.0028],
+    28: [0.0038, 0.0078, 0.0025, 0.0026],
+    29: [0.0029, 0.0074, 0.0024, 0.0025]
+}
 
 
 # captions to display in a text box by day
@@ -398,8 +408,10 @@ captions = {
 }
 
 def main():
-    # lhslider = Slider(LH_slider_image,(920, 420), (20,20), 0, 420, 340)
-    # slider_group.add(lhslider)
+    global estrogen_speed
+    global progesterone_speed
+    global lh_speed
+    global fsh_speed
 
     estrogen_group.add(Hormone(estrogen_molecule_image, (905,631),(871, 382), .01))
     lh_group.add(Hormone(LH_molecule_image, (1044,391),(974,631), .01))
@@ -433,7 +445,7 @@ def main():
                 pos2 = mouse_y
                 print(pos, pos2)
 
-        # display background image 
+        # display background image and hormone sliders
         window.blit(backgroundimage, (backgroundimage_x, backgroundimage_y))
 
         # Set up the font object and draw the text box to the screen
@@ -460,10 +472,16 @@ def main():
         if day in egg_movement.keys() :
             window.blit(egg_cell_image, egg_movement[day])
         if day in slider_location.keys() :
-            window.blit(FSH_slider_image, (970, slider_location[day][3]))
+            window.blit(progesterone_slider_image, (972, slider_location[day][3]))
             window.blit(LH_slider_image, (920, slider_location[day][0]))
-            window.blit(progesterone_slider_image, (972, slider_location[day][1]))
+            window.blit(FSH_slider_image, (972, slider_location[day][1]))
             window.blit(estrogen_slider_image, (902, slider_location[day][2]))
+        if day in hormone_levels.keys():
+            estrogen_speed = hormone_levels[day][0]
+            progesterone_speed = hormone_levels[day][1]
+            lh_speed = hormone_levels[day][2]
+            fsh_speed = hormone_levels[day][3]
+
 
     # time slider circle code - too mathematical for our background image
     #    window.blit(time_slider_image, (math.sin(day/28*360)*300+940,-math.cos(day/28*360)*300+532))
@@ -488,3 +506,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+
