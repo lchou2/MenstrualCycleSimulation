@@ -156,7 +156,7 @@ fsh_group = pygame.sprite.Group()
 pituitary_group = pygame.sprite.Group()
 slider_group = pygame.sprite.Group()
 
-# Not yet functional.  Hormones will function similar to projectiles in our evil clutches game.
+# Create classes
 class Hormone(pygame.sprite.Sprite):
     def __init__(self, image, start: tuple, end:tuple, speed, spawn_interval):
         super().__init__()
@@ -219,22 +219,6 @@ def spawn_hormones():
         new_Hormone3 = Hormone(FSH_molecule_image, (1021,357), (963,609),.01, FSH_SPAWN_INTERVAL)
         fsh_group.add(new_Hormone3)
         fshspawn_timer = current_time
-
-# Not yet functional.  Beginning outline for moving the follicles.  Plan to make the sliders a subclass.
-class Follicle(pygame.sprite.Sprite):
-    def __init__(self,image,rect):
-        super().__init__()
-        self.image = image
-        self.rect = rect
-        self.mask = pygame.mask.from_surface(image)
-
-    #if pygame.event.type == MOUSEBUTTONDOWN:
-        #if follicle.collidepoint(event.pos):
-            # moving = True
-        #elif event.type == MOUSEBUTTONUP:
-            #moving = False
-        #elif pygame.event.type == MOUSEMOTION and moving:
-            #follicle.move_ip(event.rel)
 
 class Slider(pygame.sprite.Sprite):
     def __init__(self, image, pos: tuple, size: tuple, initial_val: float, min: int, max: int):
