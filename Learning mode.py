@@ -172,8 +172,7 @@ class Hormone(pygame.sprite.Sprite):
     def update(self):
         self.t += self.speed
         if self.t >1:
-            self.t = 0
-        
+            self.t = 0       
         x = (1-self.t) * self.start[0] + self.t * self.end[0]
         y = (1-self.t)*self.start[1]+self.t*self.end[1]
         self.rect.center = (int(x), int(y))
@@ -196,10 +195,7 @@ def spawn_hormones():
     global progesteronespawn_timer
     global fshspawn_timer
     current_time = pygame.time.get_ticks()
-    
- 
-
-    
+       
     if len(estrogen_group) < 15 and current_time - estrogenspawn_timer > ESTROGEN_SPAWN_INTERVAL:
         new_Hormone1 = Hormone(estrogen_molecule_image, (905, 631), (871, 382), estrogen_speed, ESTROGEN_SPAWN_INTERVAL)
         estrogen_group.add(new_Hormone1)
@@ -219,29 +215,6 @@ def spawn_hormones():
         new_Hormone3 = Hormone(FSH_molecule_image, (1021,357), (963,609),.01, FSH_SPAWN_INTERVAL)
         fsh_group.add(new_Hormone3)
         fshspawn_timer = current_time
-
-class Slider(pygame.sprite.Sprite):
-    def __init__(self, image, pos: tuple, size: tuple, initial_val: float, min: int, max: int):
-        super().__init__()
-        self.image = image
-        self.pos = pos
-        self.size = size
-        self.min = min
-        self.max = max
-        self.initial_val = (self.max - self.min) * initial_val  # <- percentage
-        self.rect = self.image.get_rect()
-        self.rect.topleft = self.pos
-
-    def update(self):
-        mouse_x, mouse_y = pygame.mouse.get_pos()
-        if self.rect.collidepoint(mouse_x, mouse_y):
-            if pygame.mouse.get_pressed()[0]:
-                pos = mouse_y
-                if pos > self.min:
-                    pos = self.min
-                if pos < self.max:
-                    pos = self.max
-                self.rect.centery = pos
 
 # Time slider dictionary of coordinates by day
 # to center time_slider subtract 17 from each coordinate
@@ -328,38 +301,38 @@ menstrual_lining_changes = {
     }
 
 
-#hormone levels for speed variables
+#hormone levels for hormone spawns
 hormone_levels = {
-    0: [0.0038, 0.0021, 0.0026, 0.0048],
-    1: [0.0032, 0.0019, 0.0032, 0.0063],
-    2: [0.0027, 0.0017, 0.0032, 0.0063],
-    3: [0.0028, 0.0018, 0.0032, 0.0063],
-    4: [0.0028, 0.0018, 0.0032, 0.0063],
-    5: [0.0029, 0.0018, 0.0032, 0.0063],
-    6: [0.0031, 0.0019, 0.0032, 0.0063],
-    7: [0.0031, 0.0019, 0.0032, 0.0063],
-    8: [0.0032, 0.0019, 0.0032, 0.0058],
-    9: [0.0045, 0.0020, 0.0032, 0.0053],
-    10: [0.0058, 0.0020, 0.0032, 0.0048],
-    11: [0.0071, 0.0020, 0.0032, 0.0043],
-    12: [0.0083, 0.0021, 0.0063, 0.0070],
-    13: [0.0087, 0.0021, 0.0100, 0.0100],
-    14: [0.0071, 0.0026, 0.0063, 0.0070],
-    15: [0.0058, 0.0034, 0.0042, 0.0043],
-    16: [0.0054, 0.0043, 0.0040, 0.0041],
-    17: [0.0060, 0.0069, 0.0038, 0.0040],
-    18: [0.0064, 0.0086, 0.0036, 0.0039],
-    19: [0.0079, 0.0095, 0.0035, 0.0038],
-    20: [0.0087, 0.0097, 0.0034, 0.0036],
-    21: [0.0096, 0.0100, 0.0033, 0.0035],
-    22: [0.0099, 0.0100, 0.0032, 0.0034],
-    23: [0.0100, 0.0100, 0.0031, 0.0033],
-    24: [0.0090, 0.0098, 0.0029, 0.0031],
-    25: [0.0077, 0.0097, 0.0028, 0.0030],
-    26: [0.0064, 0.0090, 0.0027, 0.0029],
-    27: [0.0051, 0.0083, 0.0026, 0.0028],
-    28: [0.0038, 0.0078, 0.0025, 0.0026],
-    29: [0.0029, 0.0074, 0.0024, 0.0025]
+    0: [0.38, 0.21, 0.26, 0.48],
+    1: [0.32, 0.19, 0.32, 0.63],
+    2: [0.27, 0.17, 0.32, 0.63],
+    3: [0.28, 0.18, 0.32, 0.63],
+    4: [0.28, 0.18, 0.32, 0.63],
+    5: [0.29, 0.18, 0.32, 0.63],
+    6: [0.31, 0.19, 0.32, 0.63],
+    7: [0.31, 0.19, 0.32, 0.63],
+    8: [0.32, 0.19, 0.32, 0.58],
+    9: [0.45, 0.20, 0.32, 0.53],
+    10: [0.58, 0.20, 0.32, 0.48],
+    11: [0.71, 0.20, 0.32, 0.43],
+    12: [0.83, 0.21, 0.63, 0.70],
+    13: [0.87, 0.21, 1.00, 1.00],
+    14: [0.71, 0.26, 0.63, 0.70],
+    15: [0.58, 0.34, 0.42, 0.43],
+    16: [0.54, 0.43, 0.40, 0.41],
+    17: [0.60, 0.69, 0.38, 0.40],
+    18: [0.64, 0.86, 0.36, 0.39],
+    19: [0.79, 0.95, 0.35, 0.38],
+    20: [0.87, 0.97, 0.34, 0.36],
+    21: [0.96, 1.00, 0.33, 0.35],
+    22: [0.99, 1.00, 0.32, 0.34],
+    23: [1.00, 1.00, 0.31, 0.33],
+    24: [0.90, 0.98, 0.29, 0.31],
+    25: [0.77, 0.97, 0.28, 0.30],
+    26: [0.64, 0.90, 0.27, 0.29],
+    27: [0.51, 0.83, 0.26, 0.28],
+    28: [0.38, 0.78, 0.25, 0.26],
+    29: [0.29, 0.74, 0.24, 0.25]
 }
 
 
@@ -490,10 +463,10 @@ def main():
             #lh_speed = hormone_levels[day][0]
             #fsh_speed = hormone_levels[day][1]
         if day in hormone_levels.keys():
-            ESTROGEN_SPAWN_INTERVAL = hormone_levels[day][2]*100000
-            PROGESTERONE_SPAWN_INTERVAL = hormone_levels[day][3]*100000
-            LH_SPAWN_INTERVAL = hormone_levels[day][0]*100000
-            FSH_SPAWN_INTERVAL = hormone_levels[day][1]*100000
+            ESTROGEN_SPAWN_INTERVAL = hormone_levels[day][2]*1000
+            PROGESTERONE_SPAWN_INTERVAL = hormone_levels[day][3]*1000
+            LH_SPAWN_INTERVAL = hormone_levels[day][0]*1000
+            FSH_SPAWN_INTERVAL = hormone_levels[day][1]*1000
 
 
 
