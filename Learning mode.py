@@ -56,14 +56,18 @@ progesterone_speed = 0.01  # Set the speed for progesterone group
 lh_speed = 0.01  # Set the speed for LH group
 fsh_speed = 0.01  # Set the speed for FSH group
 
-ANIMATION_INTERVAL = 200
-ESTROGEN_SPAWN_INTERVAL = 150
-PROGESTERONE_SPAWN_INTERVAL = 150
-LH_SPAWN_INTERVAL = 150
-FSH_SPAWN_INTERVAL = 150
+#Hormone spawn intervals
+ESTROGEN_SPAWN_INTERVAL = 1000
+PROGESTERONE_SPAWN_INTERVAL = 1000
+LH_SPAWN_INTERVAL = 1000
+FSH_SPAWN_INTERVAL = 1000
 
 #Timers for hormone spawns
-spawn_timer = pygame.time.get_ticks()
+
+estrogenspawn_timer = pygame.time.get_ticks()
+progesteronespawn_timer = pygame.time.get_ticks()
+lhspawn_timer = pygame.time.get_ticks()
+fshspawn_timer = pygame.time.get_ticks()
 spawn_interval = 1000 
 
 # Creating Main Simulation Image
@@ -154,7 +158,7 @@ slider_group = pygame.sprite.Group()
 
 # Not yet functional.  Hormones will function similar to projectiles in our evil clutches game.
 class Hormone(pygame.sprite.Sprite):
-    def __init__(self, image, start: tuple, end:tuple, speed):
+    def __init__(self, image, start: tuple, end:tuple, speed, spawn_interval):
         super().__init__()
         self.image = image
         self.rect = self.image.get_rect()
@@ -162,6 +166,7 @@ class Hormone(pygame.sprite.Sprite):
         self.end = end
         self.t = 0
         self.speed = speed
+        self.spawn_interval = spawn_interval 
         self.tolerance = 5 #had precision issues when using exact coordinates for the self.kill
         
     def update(self):
@@ -177,29 +182,44 @@ class Hormone(pygame.sprite.Sprite):
             self.kill()
     
 def spawn_hormones():
-    global spawn_timer
     global estrogen_speed
     global estrogen_speed
     global progesterone_speed 
     global lh_speed 
     global fsh_speed 
+    global LH_SPAWN_INTERVAL
+    global ESTROGEN_SPAWN_INTERVAL
+    global PROGESTERONE_SPAWN_INTERVAL
+    global FSH_SPAWN_INTERVAL
+    global lhspawn_timer
+    global estrogenspawn_timer
+    global progesteronespawn_timer
+    global fshspawn_timer
     current_time = pygame.time.get_ticks()
     
  
 
     
-    if len(estrogen_group) < 15 and current_time - spawn_timer > spawn_interval:
-        new_Hormone = Hormone(LH_molecule_image, (1044, 391), (974, 631), lh_speed)
-        new_Hormone1 = Hormone(estrogen_molecule_image, (905, 631), (871, 382), estrogen_speed)
-        new_Hormone2 = Hormone(progesterone_molecule_image, (923, 609), (883, 353), progesterone_speed)
-        new_Hormone3 = Hormone(FSH_molecule_image, (1021, 357), (963, 609), fsh_speed)
-        
-        lh_group.add(new_Hormone)
+    if len(estrogen_group) < 15 and current_time - estrogenspawn_timer > ESTROGEN_SPAWN_INTERVAL:
+        new_Hormone1 = Hormone(estrogen_molecule_image, (905, 631), (871, 382), estrogen_speed, ESTROGEN_SPAWN_INTERVAL)
         estrogen_group.add(new_Hormone1)
+        estrogenspawn_timer = current_time
+    
+    if len(lh_group) < 15 and current_time - lhspawn_timer > lh_group.sprites()[-1].spawn_interval:
+        new_Hormone = Hormone(LH_molecule_image, (1044, 391), (974, 631), lh_speed, LH_SPAWN_INTERVAL)
+        lh_group.add(new_Hormone)
+        lhspawn_timer = current_time
+
+    if len(progesterone_group) < 15 and current_time - progesteronespawn_timer > progesterone_group.sprites()[-1].spawn_interval: 
+        new_Hormone2 = Hormone(progesterone_molecule_image, (923, 609), (883,353),.01, PROGESTERONE_SPAWN_INTERVAL)
         progesterone_group.add(new_Hormone2)
+        progesteronespawn_timer = current_time
+    
+    if len (fsh_group) < 15 and current_time - fshspawn_timer > fsh_group.sprites()[-1].spawn_interval:
+        new_Hormone3 = Hormone(FSH_molecule_image, (1021,357), (963,609),.01, FSH_SPAWN_INTERVAL)
         fsh_group.add(new_Hormone3)
-        
-        spawn_timer = current_time
+        fshspawn_timer = current_time
+
 # Not yet functional.  Beginning outline for moving the follicles.  Plan to make the sliders a subclass.
 class Follicle(pygame.sprite.Sprite):
     def __init__(self,image,rect):
@@ -412,11 +432,15 @@ def main():
     global progesterone_speed
     global lh_speed
     global fsh_speed
+    global LH_SPAWN_INTERVAL
+    global ESTROGEN_SPAWN_INTERVAL
+    global PROGESTERONE_SPAWN_INTERVAL
+    global FSH_SPAWN_INTERVAL
 
-    estrogen_group.add(Hormone(estrogen_molecule_image, (905,631),(871, 382), .01))
-    lh_group.add(Hormone(LH_molecule_image, (1044,391),(974,631), .01))
-    progesterone_group.add(Hormone(progesterone_molecule_image, (923, 609), (883,353),.01))
-    fsh_group.add(Hormone(FSH_molecule_image, (1021,357), (963,609),.01))
+    estrogen_group.add(Hormone(estrogen_molecule_image, (905,631),(871, 382), .01, ESTROGEN_SPAWN_INTERVAL))
+    lh_group.add(Hormone(LH_molecule_image, (1044,391),(974,631), .01, LH_SPAWN_INTERVAL))
+    progesterone_group.add(Hormone(progesterone_molecule_image, (923, 609), (883,353),.01, PROGESTERONE_SPAWN_INTERVAL))
+    fsh_group.add(Hormone(FSH_molecule_image, (1021,357), (963,609),.01, FSH_SPAWN_INTERVAL))
 
     running = True
 
@@ -476,11 +500,17 @@ def main():
             window.blit(LH_slider_image, (920, slider_location[day][0]))
             window.blit(FSH_slider_image, (972, slider_location[day][1]))
             window.blit(estrogen_slider_image, (902, slider_location[day][2]))
+        #if day in hormone_levels.keys():
+            #estrogen_speed = hormone_levels[day][2]
+            #progesterone_speed = hormone_levels[day][3]
+            #lh_speed = hormone_levels[day][0]
+            #fsh_speed = hormone_levels[day][1]
         if day in hormone_levels.keys():
-            estrogen_speed = hormone_levels[day][0]
-            progesterone_speed = hormone_levels[day][1]
-            lh_speed = hormone_levels[day][2]
-            fsh_speed = hormone_levels[day][3]
+            ESTROGEN_SPAWN_INTERVAL = hormone_levels[day][2]*100000
+            PROGESTERONE_SPAWN_INTERVAL = hormone_levels[day][3]*100000
+            LH_SPAWN_INTERVAL = hormone_levels[day][0]*100000
+            FSH_SPAWN_INTERVAL = hormone_levels[day][1]*100000
+
 
 
     # time slider circle code - too mathematical for our background image
