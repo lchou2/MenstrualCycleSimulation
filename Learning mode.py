@@ -50,12 +50,6 @@ LH_SLIDER_HEIGHT = 10
 FSH_SLIDER_WIDTH = 10
 FSH_SLIDER_HEIGHT = 10
 
-# Speeds of sprites
-estrogen_speed = 0.01  # Set the speed for estrogen group
-progesterone_speed = 0.01  # Set the speed for progesterone group
-lh_speed = 0.01  # Set the speed for LH group
-fsh_speed = 0.01  # Set the speed for FSH group
-
 #Hormone spawn intervals
 ESTROGEN_SPAWN_INTERVAL = 1000
 PROGESTERONE_SPAWN_INTERVAL = 1000
@@ -181,11 +175,6 @@ class Hormone(pygame.sprite.Sprite):
             self.kill()
     
 def spawn_hormones():
-    global estrogen_speed
-    global estrogen_speed
-    global progesterone_speed 
-    global lh_speed 
-    global fsh_speed 
     global LH_SPAWN_INTERVAL
     global ESTROGEN_SPAWN_INTERVAL
     global PROGESTERONE_SPAWN_INTERVAL
@@ -197,12 +186,12 @@ def spawn_hormones():
     current_time = pygame.time.get_ticks()
        
     if len(estrogen_group) < 15 and current_time - estrogenspawn_timer > ESTROGEN_SPAWN_INTERVAL:
-        new_Hormone1 = Hormone(estrogen_molecule_image, (905, 631), (871, 382), estrogen_speed, ESTROGEN_SPAWN_INTERVAL)
+        new_Hormone1 = Hormone(estrogen_molecule_image, (905, 631), (871, 382), .01, ESTROGEN_SPAWN_INTERVAL)
         estrogen_group.add(new_Hormone1)
         estrogenspawn_timer = current_time
     
     if len(lh_group) < 15 and current_time - lhspawn_timer > lh_group.sprites()[-1].spawn_interval:
-        new_Hormone = Hormone(LH_molecule_image, (1044, 391), (974, 631), lh_speed, LH_SPAWN_INTERVAL)
+        new_Hormone = Hormone(LH_molecule_image, (1044, 391), (974, 631), .01, LH_SPAWN_INTERVAL)
         lh_group.add(new_Hormone)
         lhspawn_timer = current_time
 
@@ -385,10 +374,6 @@ captions = {
 }
 
 def main():
-    global estrogen_speed
-    global progesterone_speed
-    global lh_speed
-    global fsh_speed
     global LH_SPAWN_INTERVAL
     global ESTROGEN_SPAWN_INTERVAL
     global PROGESTERONE_SPAWN_INTERVAL
@@ -457,11 +442,6 @@ def main():
             window.blit(LH_slider_image, (920, slider_location[day][0]))
             window.blit(FSH_slider_image, (972, slider_location[day][1]))
             window.blit(estrogen_slider_image, (902, slider_location[day][2]))
-        #if day in hormone_levels.keys():
-            #estrogen_speed = hormone_levels[day][2]
-            #progesterone_speed = hormone_levels[day][3]
-            #lh_speed = hormone_levels[day][0]
-            #fsh_speed = hormone_levels[day][1]
         if day in hormone_levels.keys():
             ESTROGEN_SPAWN_INTERVAL = hormone_levels[day][2]*1000
             PROGESTERONE_SPAWN_INTERVAL = hormone_levels[day][3]*1000
