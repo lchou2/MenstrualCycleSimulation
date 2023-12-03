@@ -51,10 +51,10 @@ FSH_SLIDER_WIDTH = 10
 FSH_SLIDER_HEIGHT = 10
 
 #Hormone spawn intervals
-ESTROGEN_SPAWN_INTERVAL = 1000
-PROGESTERONE_SPAWN_INTERVAL = 1000
-LH_SPAWN_INTERVAL = 1000
-FSH_SPAWN_INTERVAL = 1000
+ESTROGEN_SPAWN_INTERVAL = 500
+PROGESTERONE_SPAWN_INTERVAL = 500
+LH_SPAWN_INTERVAL = 500
+FSH_SPAWN_INTERVAL = 500
 
 #Timers for hormone spawns
 
@@ -150,6 +150,40 @@ fsh_group = pygame.sprite.Group()
 pituitary_group = pygame.sprite.Group()
 slider_group = pygame.sprite.Group()
 
+#hormone levels for hormone spawns %estrogen, %progesterone, % LH, % FSH
+hormone_levels = {
+    0: [0.38, 0.21, 0.26, 0.48],
+    1: [0.32, 0.19, 0.32, 0.63],
+    2: [0.27, 0.17, 0.32, 0.63],
+    3: [0.28, 0.18, 0.32, 0.63],
+    4: [0.28, 0.18, 0.32, 0.63],
+    5: [0.29, 0.18, 0.32, 0.63],
+    6: [0.31, 0.19, 0.32, 0.63],
+    7: [0.31, 0.19, 0.32, 0.63],
+    8: [0.32, 0.19, 0.32, 0.58],
+    9: [0.45, 0.20, 0.32, 0.53],
+    10: [0.58, 0.20, 0.32, 0.48],
+    11: [0.71, 0.20, 0.32, 0.43],
+    12: [0.83, 0.21, 0.63, 0.70],
+    13: [0.87, 0.21, 1.00, 1.00],
+    14: [0.71, 0.26, 0.63, 0.70],
+    15: [0.58, 0.34, 0.42, 0.43],
+    16: [0.54, 0.43, 0.40, 0.41],
+    17: [0.60, 0.69, 0.38, 0.40],
+    18: [0.64, 0.86, 0.36, 0.39],
+    19: [0.79, 0.95, 0.35, 0.38],
+    20: [0.87, 0.97, 0.34, 0.36],
+    21: [0.96, 1.00, 0.33, 0.35],
+    22: [0.99, 1.00, 0.32, 0.34],
+    23: [1.00, 1.00, 0.31, 0.33],
+    24: [0.90, 0.98, 0.29, 0.31],
+    25: [0.77, 0.97, 0.28, 0.30],
+    26: [0.64, 0.90, 0.27, 0.29],
+    27: [0.51, 0.83, 0.26, 0.28],
+    28: [0.38, 0.78, 0.25, 0.26],
+    29: [0.29, 0.74, 0.24, 0.25]
+}
+
 # Create classes
 class Hormone(pygame.sprite.Sprite):
     def __init__(self, image, start: tuple, end:tuple, speed, spawn_interval):
@@ -174,7 +208,7 @@ class Hormone(pygame.sprite.Sprite):
         if abs(x - self.end[0]) < self.tolerance and abs(y - self.end[1]) < self.tolerance:
             self.kill()
     
-def spawn_hormones():
+def spawn_hormones(day):
     global LH_SPAWN_INTERVAL
     global ESTROGEN_SPAWN_INTERVAL
     global PROGESTERONE_SPAWN_INTERVAL
@@ -190,20 +224,26 @@ def spawn_hormones():
         estrogen_group.add(new_Hormone1)
         estrogenspawn_timer = current_time
     
-    if len(lh_group) < 15 and current_time - lhspawn_timer > lh_group.sprites()[-1].spawn_interval:
+    if len(lh_group) < 15 and current_time - lhspawn_timer > LH_SPAWN_INTERVAL:
         new_Hormone = Hormone(LH_molecule_image, (1044, 391), (974, 631), .01, LH_SPAWN_INTERVAL)
         lh_group.add(new_Hormone)
         lhspawn_timer = current_time
 
-    if len(progesterone_group) < 15 and current_time - progesteronespawn_timer > progesterone_group.sprites()[-1].spawn_interval: 
-        new_Hormone2 = Hormone(progesterone_molecule_image, (923, 609), (883,353),.01, PROGESTERONE_SPAWN_INTERVAL)
+    if len(progesterone_group) < 15 and current_time - progesteronespawn_timer > PROGESTERONE_SPAWN_INTERVAL: 
+        new_Hormone2 = Hormone(progesterone_molecule_image, (923, 609), (883,353), .01, PROGESTERONE_SPAWN_INTERVAL)
         progesterone_group.add(new_Hormone2)
         progesteronespawn_timer = current_time
     
-    if len (fsh_group) < 15 and current_time - fshspawn_timer > fsh_group.sprites()[-1].spawn_interval:
+    if len(fsh_group) < 15 and current_time - fshspawn_timer > FSH_SPAWN_INTERVAL:
         new_Hormone3 = Hormone(FSH_molecule_image, (1021,357), (963,609),.01, FSH_SPAWN_INTERVAL)
         fsh_group.add(new_Hormone3)
         fshspawn_timer = current_time
+
+    if day in hormone_levels.keys():
+            ESTROGEN_SPAWN_INTERVAL = 1000-hormone_levels[day][0]*1000
+            PROGESTERONE_SPAWN_INTERVAL = 1000-hormone_levels[day][1]*1000
+            LH_SPAWN_INTERVAL = 1000-hormone_levels[day][2]*1000
+            FSH_SPAWN_INTERVAL = 1000-hormone_levels[day][3]*1000
 
 # Time slider dictionary of coordinates by day
 # to center time_slider subtract 17 from each coordinate
@@ -290,75 +330,10 @@ menstrual_lining_changes = {
     }
 
 
-#hormone levels for hormone spawns %estrogen, %progesterone, % LH, % FSH
-hormone_levels = {
-    0: [0.38, 0.21, 0.26, 0.48],
-    1: [0.32, 0.19, 0.32, 0.63],
-    2: [0.27, 0.17, 0.32, 0.63],
-    3: [0.28, 0.18, 0.32, 0.63],
-    4: [0.28, 0.18, 0.32, 0.63],
-    5: [0.29, 0.18, 0.32, 0.63],
-    6: [0.31, 0.19, 0.32, 0.63],
-    7: [0.31, 0.19, 0.32, 0.63],
-    8: [0.32, 0.19, 0.32, 0.58],
-    9: [0.45, 0.20, 0.32, 0.53],
-    10: [0.58, 0.20, 0.32, 0.48],
-    11: [0.71, 0.20, 0.32, 0.43],
-    12: [0.83, 0.21, 0.63, 0.70],
-    13: [0.87, 0.21, 1.00, 1.00],
-    14: [0.71, 0.26, 0.63, 0.70],
-    15: [0.58, 0.34, 0.42, 0.43],
-    16: [0.54, 0.43, 0.40, 0.41],
-    17: [0.60, 0.69, 0.38, 0.40],
-    18: [0.64, 0.86, 0.36, 0.39],
-    19: [0.79, 0.95, 0.35, 0.38],
-    20: [0.87, 0.97, 0.34, 0.36],
-    21: [0.96, 1.00, 0.33, 0.35],
-    22: [0.99, 1.00, 0.32, 0.34],
-    23: [1.00, 1.00, 0.31, 0.33],
-    24: [0.90, 0.98, 0.29, 0.31],
-    25: [0.77, 0.97, 0.28, 0.30],
-    26: [0.64, 0.90, 0.27, 0.29],
-    27: [0.51, 0.83, 0.26, 0.28],
-    28: [0.38, 0.78, 0.25, 0.26],
-    29: [0.29, 0.74, 0.24, 0.25]
-}
+
 
 
 # captions to display in a text box by day
-
-'''slider_location = {
-    0: [394.6, 403.2, 775.88, 762.24],
-    1: [399.4, 405.02, 772.16, 752.94],
-    2: [403.4, 406.4, 772.16, 752.94],
-    3: [402.6, 405.92, 772.16, 752.94],
-    4: [402.6, 405.92, 772.16, 752.94],
-    5: [401.8, 405.92, 772.16, 752.94],
-    6: [400.2, 404.8, 772.16, 752.94],
-    7: [400.2, 404.8, 772.16, 752.94],
-    8: [399.4, 404.8, 772.16, 756.04],
-    9: [389.0, 404.0, 772.16, 759.14],
-    10: [378.6, 404.0, 772.16, 762.24],
-    11: [368.2, 404.0, 772.16, 765.34],
-    12: [358.6, 403.52, 752.94, 748.6],
-    13: [355.4, 403.52, 730.0, 730.0],
-    14: [368.2, 399.2, 752.94, 748.6],
-    15: [378.6, 392.8, 765.96, 765.34],
-    16: [381.8, 386.08, 767.2, 766.58],
-    17: [377.0, 366.32, 768.44, 767.2],
-    18: [373.8, 352.48, 769.68, 767.82],
-    19: [361.8, 345.6, 770.3, 768.44],
-    20: [355.4, 342.4, 770.92, 769.68],
-    21: [348.2, 340.0, 771.54, 770.3],
-    22: [345.8, 340.0, 772.16, 770.12],
-    23: [345.0, 340.0, 772.78, 770.74],
-    24: [353.0, 341.6, 773.92, 771.78],
-    25: [363.4, 342.4, 774.64, 772.4],
-    26: [373.8, 348.0, 775.28, 772.94],
-    27: [384.2, 355.36, 775.88, 773.64],
-    28: [394.6, 357.6, 776.5, 774.88],
-    29: [401.8, 360.8, 777.12, 775.5]
-}'''
 # explanations to display in a text box by day
 captions = {
     5: "Follicle grows and releases estrogen.",
@@ -437,19 +412,10 @@ def main():
                 window.blit(menstrual_lining_changes[day], UTERUS)
         if day in egg_movement.keys() :
             window.blit(egg_cell_image, egg_movement[day])
-        '''if day in slider_location.keys() :
-            window.blit(FSH_slider_image, (972, slider_location[day][1]))
-            window.blit(estrogen_slider_image, (904, slider_location[day][2]))
-            window.blit(progesterone_slider_image, (972, slider_location[day][3]))
-            window.blit(LH_slider_image, (922, slider_location[day][0]))'''
         if day in hormone_levels.keys():
-            ESTROGEN_SPAWN_INTERVAL = hormone_levels[day][0]*1000
-            PROGESTERONE_SPAWN_INTERVAL = hormone_levels[day][1]*1000
-            LH_SPAWN_INTERVAL = hormone_levels[day][2]*1000
-            FSH_SPAWN_INTERVAL = hormone_levels[day][3]*1000
             window.blit(estrogen_slider_image, (904, 792-80*hormone_levels[day][0]))
             window.blit(progesterone_slider_image, (972, 792-80*hormone_levels[day][1]))
-            window.blit(LH_slider_image, (922, 425-80*hormone_levels[day][2]))
+            window.blit(LH_slider_image, (922, 420-80*hormone_levels[day][2]))
             window.blit(FSH_slider_image, (972, 420-80*hormone_levels[day][3]))
 
 
@@ -459,7 +425,7 @@ def main():
 
         slider_group.draw(window)
         slider_group.update()
-        spawn_hormones()
+        spawn_hormones(day)
         estrogen_group.draw(window)
         progesterone_group.draw(window)
         lh_group.draw(window)
