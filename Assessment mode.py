@@ -71,11 +71,11 @@ backgroundimage_y = (WINDOW_HEIGHT - backgroundimage_rect.height) // 2
 
 # Load static images and scale images
 background_image = pygame.image.load('Background image.png').convert_alpha()
-cl_large_image = pygame.image.load('corpus leuteum large.png').convert_alpha()
+cl_large_image = pygame.image.load('corpus luteum large.png').convert_alpha()
 cl_large_image = pygame.transform.scale(cl_large_image, (50, 50))
-cl_medium_image = pygame.image.load('corpus leuteum medium.png').convert_alpha()
+cl_medium_image = pygame.image.load('corpus luteum medium.png').convert_alpha()
 cl_medium_image = pygame.transform.scale(cl_medium_image, (40, 40))
-cl_small_image = pygame.image.load('corpus leuteum small.png').convert_alpha()
+cl_small_image = pygame.image.load('corpus luteum small.png').convert_alpha()
 cl_small_image = pygame.transform.scale(cl_small_image, (30, 30))
 egg_cell_image = pygame.image.load('egg cell.png').convert_alpha()
 egg_cell_image = pygame.transform.scale(egg_cell_image, (20, 20))
@@ -193,14 +193,14 @@ class Follicle(pygame.sprite.Sprite):
             #follicle.move_ip(event.rel)
 
 class Slider(pygame.sprite.Sprite):
-    def __init__(self, image, pos: tuple, size: tuple, initial_val: float, min: int, max: int):
+    def __init__(self, image, pos: tuple, size: tuple, min: int, max: int):
         super().__init__()
         self.image = image
         self.pos = pos
         self.size = size
         self.min = min
         self.max = max
-        self.initial_val = (self.max - self.min) * initial_val  # <- percentage
+        #self.initial_val = (self.max - self.min) * initial_val  # <- percentage
         self.rect = self.image.get_rect()
         self.rect.topleft = self.pos
 
@@ -223,7 +223,7 @@ CL_LARGE_WIDTH = 30
 
 def main():
     lhslider = Slider(LH_slider_image,(920, 425), (15,15), 425, 345)
-    fhsslider = Slider(FSH_slider_image, (970,420), (15,15), 420,340)
+    fhsslider = Slider(FSH_slider_image, (970,420), (15,15), 420, 340)
     eslider = Slider(estrogen_slider_image, (902,792),(15,15),792, 730)
     pslider = Slider(progesterone_slider_image, (972, 792), (15,15),792, 730)
     slider_group.add(lhslider)
