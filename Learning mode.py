@@ -290,7 +290,7 @@ menstrual_lining_changes = {
     }
 
 
-#hormone levels for hormone spawns
+#hormone levels for hormone spawns %estrogen, %progesterone, % LH, % FSH
 hormone_levels = {
     0: [0.38, 0.21, 0.26, 0.48],
     1: [0.32, 0.19, 0.32, 0.63],
@@ -327,7 +327,7 @@ hormone_levels = {
 
 # captions to display in a text box by day
 
-slider_location = {
+'''slider_location = {
     0: [394.6, 403.2, 775.88, 762.24],
     1: [399.4, 405.02, 772.16, 752.94],
     2: [403.4, 406.4, 772.16, 752.94],
@@ -358,7 +358,7 @@ slider_location = {
     27: [384.2, 355.36, 775.88, 773.64],
     28: [394.6, 357.6, 776.5, 774.88],
     29: [401.8, 360.8, 777.12, 775.5]
-}
+}'''
 # explanations to display in a text box by day
 captions = {
     5: "Follicle grows and releases estrogen.",
@@ -437,16 +437,20 @@ def main():
                 window.blit(menstrual_lining_changes[day], UTERUS)
         if day in egg_movement.keys() :
             window.blit(egg_cell_image, egg_movement[day])
-        if day in slider_location.keys() :
-            window.blit(progesterone_slider_image, (972, slider_location[day][3]))
-            window.blit(LH_slider_image, (920, slider_location[day][0]))
+        '''if day in slider_location.keys() :
             window.blit(FSH_slider_image, (972, slider_location[day][1]))
-            window.blit(estrogen_slider_image, (902, slider_location[day][2]))
+            window.blit(estrogen_slider_image, (904, slider_location[day][2]))
+            window.blit(progesterone_slider_image, (972, slider_location[day][3]))
+            window.blit(LH_slider_image, (922, slider_location[day][0]))'''
         if day in hormone_levels.keys():
-            ESTROGEN_SPAWN_INTERVAL = hormone_levels[day][2]*1000
-            PROGESTERONE_SPAWN_INTERVAL = hormone_levels[day][3]*1000
-            LH_SPAWN_INTERVAL = hormone_levels[day][0]*1000
-            FSH_SPAWN_INTERVAL = hormone_levels[day][1]*1000
+            ESTROGEN_SPAWN_INTERVAL = hormone_levels[day][0]*1000
+            PROGESTERONE_SPAWN_INTERVAL = hormone_levels[day][1]*1000
+            LH_SPAWN_INTERVAL = hormone_levels[day][2]*1000
+            FSH_SPAWN_INTERVAL = hormone_levels[day][3]*1000
+            window.blit(estrogen_slider_image, (904, 792-80*hormone_levels[day][0]))
+            window.blit(progesterone_slider_image, (972, 792-80*hormone_levels[day][1]))
+            window.blit(LH_slider_image, (922, 425-80*hormone_levels[day][2]))
+            window.blit(FSH_slider_image, (972, 420-80*hormone_levels[day][3]))
 
 
 
