@@ -240,10 +240,10 @@ def spawn_hormones(day):
         fshspawn_timer = current_time
 
     if day in hormone_levels.keys():
-            ESTROGEN_SPAWN_INTERVAL = 1000-hormone_levels[day][0]*1000
-            PROGESTERONE_SPAWN_INTERVAL = 1000-hormone_levels[day][1]*1000
-            LH_SPAWN_INTERVAL = 1000-hormone_levels[day][2]*1000
-            FSH_SPAWN_INTERVAL = 1000-hormone_levels[day][3]*1000
+            ESTROGEN_SPAWN_INTERVAL = 1100-hormone_levels[day][0]*1000
+            PROGESTERONE_SPAWN_INTERVAL = 1100-hormone_levels[day][1]*1000
+            LH_SPAWN_INTERVAL = 1100-hormone_levels[day][2]*1000
+            FSH_SPAWN_INTERVAL = 1100-hormone_levels[day][3]*1000
 
 # Time slider dictionary of coordinates by day
 # to center time_slider subtract 17 from each coordinate
@@ -361,7 +361,7 @@ def main():
 
     running = True
 
-    # Main game loop
+    # Main simulation loop
     day = 0
     first_cycle = True
     follicle_image = follicle_changes[1]
