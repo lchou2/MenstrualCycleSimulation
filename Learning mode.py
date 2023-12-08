@@ -147,7 +147,6 @@ lh_group = pygame.sprite.Group()
 progesterone_group = pygame.sprite.Group()
 fsh_group = pygame.sprite.Group()
 pituitary_group = pygame.sprite.Group()
-slider_group = pygame.sprite.Group()
 
 #hormone levels for hormone spawns %estrogen, %progesterone, % LH, % FSH
 hormone_levels = {
@@ -407,16 +406,14 @@ def main():
         if day in egg_movement.keys() :
             window.blit(egg_cell_image, egg_movement[day])
         if day in hormone_levels.keys():
-            window.blit(estrogen_slider_image, (904, 792-80*hormone_levels[day][0]))
-            window.blit(progesterone_slider_image, (972, 792-80*hormone_levels[day][1]))
+            window.blit(estrogen_slider_image, (904, 792-65*hormone_levels[day][0]))
+            window.blit(progesterone_slider_image, (972, 792-65*hormone_levels[day][1]))
             window.blit(LH_slider_image, (922, 420-80*hormone_levels[day][2]))
             window.blit(FSH_slider_image, (972, 420-80*hormone_levels[day][3]))
 
     # time slider circle code - too mathematical for our background image
     #    window.blit(time_slider_image, (math.sin(day/28*360)*300+940,-math.cos(day/28*360)*300+532))
 
-        slider_group.draw(window)
-        slider_group.update()
         spawn_hormones(day)
         estrogen_group.draw(window)
         progesterone_group.draw(window)
