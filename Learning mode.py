@@ -51,18 +51,17 @@ FSH_SLIDER_WIDTH = 10
 FSH_SLIDER_HEIGHT = 10
 
 #Hormone spawn intervals
-ESTROGEN_SPAWN_INTERVAL = 500
-PROGESTERONE_SPAWN_INTERVAL = 500
-LH_SPAWN_INTERVAL = 500
-FSH_SPAWN_INTERVAL = 500
+ESTROGEN_SPAWN_INTERVAL = 1500000000
+PROGESTERONE_SPAWN_INTERVAL = 1500
+LH_SPAWN_INTERVAL = 1500
+FSH_SPAWN_INTERVAL = 1500
 
 #Timers for hormone spawns
-
 estrogenspawn_timer = pygame.time.get_ticks()
 progesteronespawn_timer = pygame.time.get_ticks()
 lhspawn_timer = pygame.time.get_ticks()
 fshspawn_timer = pygame.time.get_ticks()
-spawn_interval = 1000 
+# spawn_interval = 1000
 
 # Creating Main Simulation Image
 backgroundimage = pygame.image.load("Background image.png")
@@ -186,7 +185,7 @@ hormone_levels = {
 
 # Create classes
 class Hormone(pygame.sprite.Sprite):
-    def __init__(self, image, start: tuple, end:tuple, speed, spawn_interval):
+    def __init__(self, image, start: tuple, end:tuple, speed):
         super().__init__()
         self.image = image
         self.rect = self.image.get_rect()
@@ -194,7 +193,6 @@ class Hormone(pygame.sprite.Sprite):
         self.end = end
         self.t = 0
         self.speed = speed
-        self.spawn_interval = spawn_interval 
         self.tolerance = 5 #had precision issues when using exact coordinates for the self.kill
         
     def update(self):
@@ -220,22 +218,22 @@ def spawn_hormones(day):
     current_time = pygame.time.get_ticks()
        
     if len(estrogen_group) < 15 and current_time - estrogenspawn_timer > ESTROGEN_SPAWN_INTERVAL:
-        new_Hormone1 = Hormone(estrogen_molecule_image, (905, 631), (871, 382), .01, ESTROGEN_SPAWN_INTERVAL)
+        new_Hormone1 = Hormone(estrogen_molecule_image, (905, 631), (871, 382), .01)
         estrogen_group.add(new_Hormone1)
         estrogenspawn_timer = current_time
     
     if len(lh_group) < 15 and current_time - lhspawn_timer > LH_SPAWN_INTERVAL:
-        new_Hormone = Hormone(LH_molecule_image, (1044, 391), (974, 631), .01, LH_SPAWN_INTERVAL)
+        new_Hormone = Hormone(LH_molecule_image, (1044, 391), (974, 631), .01)
         lh_group.add(new_Hormone)
         lhspawn_timer = current_time
 
     if len(progesterone_group) < 15 and current_time - progesteronespawn_timer > PROGESTERONE_SPAWN_INTERVAL: 
-        new_Hormone2 = Hormone(progesterone_molecule_image, (923, 609), (883,353), .01, PROGESTERONE_SPAWN_INTERVAL)
+        new_Hormone2 = Hormone(progesterone_molecule_image, (923, 609), (883,353), .01)
         progesterone_group.add(new_Hormone2)
         progesteronespawn_timer = current_time
     
     if len(fsh_group) < 15 and current_time - fshspawn_timer > FSH_SPAWN_INTERVAL:
-        new_Hormone3 = Hormone(FSH_molecule_image, (1021,357), (963,609),.01, FSH_SPAWN_INTERVAL)
+        new_Hormone3 = Hormone(FSH_molecule_image, (1021,357), (963,609),.01)
         fsh_group.add(new_Hormone3)
         fshspawn_timer = current_time
 
@@ -329,10 +327,6 @@ menstrual_lining_changes = {
     4: menstruation_5
     }
 
-
-
-
-
 # captions to display in a text box by day
 # explanations to display in a text box by day
 captions = {
@@ -354,10 +348,10 @@ def main():
     global PROGESTERONE_SPAWN_INTERVAL
     global FSH_SPAWN_INTERVAL
 
-    estrogen_group.add(Hormone(estrogen_molecule_image, (905,631),(871, 382), .01, ESTROGEN_SPAWN_INTERVAL))
-    lh_group.add(Hormone(LH_molecule_image, (1044,391),(974,631), .01, LH_SPAWN_INTERVAL))
-    progesterone_group.add(Hormone(progesterone_molecule_image, (923, 609), (883,353),.01, PROGESTERONE_SPAWN_INTERVAL))
-    fsh_group.add(Hormone(FSH_molecule_image, (1021,357), (963,609),.01, FSH_SPAWN_INTERVAL))
+    estrogen_group.add(Hormone(estrogen_molecule_image, (905,631),(871, 382), .01))
+    lh_group.add(Hormone(LH_molecule_image, (1044,391),(974,631), .01))
+    progesterone_group.add(Hormone(progesterone_molecule_image, (923, 609), (883,353),.01))
+    fsh_group.add(Hormone(FSH_molecule_image, (1021,357), (963,609),.01))
 
     running = True
 
@@ -418,8 +412,6 @@ def main():
             window.blit(LH_slider_image, (922, 420-80*hormone_levels[day][2]))
             window.blit(FSH_slider_image, (972, 420-80*hormone_levels[day][3]))
 
-
-
     # time slider circle code - too mathematical for our background image
     #    window.blit(time_slider_image, (math.sin(day/28*360)*300+940,-math.cos(day/28*360)*300+532))
 
@@ -438,8 +430,6 @@ def main():
         pygame.display.update()
 
     pygame.quit()
-
-
 
 if __name__ == "__main__":
     main()
