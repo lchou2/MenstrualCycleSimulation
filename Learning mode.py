@@ -439,6 +439,10 @@ def main():
                     if day > 29:
                         day = 0
                         first_cycle = False
+                if event.key == pygame.K_BACKSPACE:
+                    day = day - 1
+                    if day <0:
+                        day = 28
             if pygame.mouse.get_pressed()[0]:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
                 pos = mouse_x
