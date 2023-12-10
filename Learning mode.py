@@ -393,10 +393,16 @@ slider_location = {
     28: [394.6, 357.6, 776.5, 774.88],
     29: [401.8, 360.8, 777.12, 775.5]
 }
-# explanations to display in a text box by day
+# explanations to display in a text box by day, blank strings built in for backward function
 captions = {
+    2:"",
+    3:"",
+    4:"",
     5: "Follicle grows and releases estrogen.",
+    9:"",
     10: "Follicle matures. High estrogen levels stimulate the brain to release LH and FSH.  Estrogen also causes the lining of uterus to thicken.",
+    11:"",
+    13:"",
     14: "LH and FSH peak. The mature follicle continues to keep estrogen levels high, growing the uterine lining.",
     15: "High LH and FSH levels cause ovulation. The egg cell moves from the follicle into the fallopian tube.",
     16: "The follicle becomes the corpus luteum.  The egg drifts through the fallopian tube and is fertilized if sperm are present.",
