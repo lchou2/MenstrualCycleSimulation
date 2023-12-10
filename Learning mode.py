@@ -51,7 +51,7 @@ FSH_SLIDER_WIDTH = 10
 FSH_SLIDER_HEIGHT = 10
 
 #Hormone spawn intervals
-ESTROGEN_SPAWN_INTERVAL = 1500000000
+ESTROGEN_SPAWN_INTERVAL = 1500
 PROGESTERONE_SPAWN_INTERVAL = 1500
 LH_SPAWN_INTERVAL = 1500
 FSH_SPAWN_INTERVAL = 1500
@@ -146,7 +146,6 @@ estrogen_group = pygame.sprite.Group()
 lh_group = pygame.sprite.Group()
 progesterone_group = pygame.sprite.Group()
 fsh_group = pygame.sprite.Group()
-pituitary_group = pygame.sprite.Group()
 
 #hormone levels for hormone spawns %estrogen, %progesterone, % LH, % FSH
 hormone_levels = {
@@ -236,6 +235,7 @@ def spawn_hormones(day):
         fsh_group.add(new_Hormone3)
         fshspawn_timer = current_time
 
+    #spawns hormones and spaces them out correctly (1100 spreads them while 1000 or 1050 clumps)
     if day in hormone_levels.keys():
             ESTROGEN_SPAWN_INTERVAL = 1100-hormone_levels[day][0]*1000
             PROGESTERONE_SPAWN_INTERVAL = 1100-hormone_levels[day][1]*1000
@@ -373,6 +373,8 @@ def main():
                     if day > 29:
                         day = 0
                         first_cycle = False
+
+            # was useful for building dictionaries, remove for final product
             if pygame.mouse.get_pressed()[0]:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
                 pos = mouse_x
