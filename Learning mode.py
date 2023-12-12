@@ -320,7 +320,7 @@ menstrual_lining_changes = {
     }
 
 
-#hormone levels for slider positions
+#hormone levels by day 
 hormone_levels = {
     0: [0.0038, 0.0021, 0.0026, 0.0048],
     1: [0.0032, 0.0019, 0.0032, 0.0063],
@@ -355,7 +355,7 @@ hormone_levels = {
 }
 
 
-# slider lovation by day
+# slider location by day
 
 slider_location = {
     0: [394.6, 403.2, 775.88, 762.24],
