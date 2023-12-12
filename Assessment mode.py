@@ -71,11 +71,11 @@ backgroundimage_y = (WINDOW_HEIGHT - backgroundimage_rect.height) // 2
 
 # Load static images and scale images
 background_image = pygame.image.load('Background image.png').convert_alpha()
-cl_large_image = pygame.image.load('corpus leuteum large.png').convert_alpha()
+cl_large_image = pygame.image.load('corpus luteum large.png').convert_alpha()
 cl_large_image = pygame.transform.scale(cl_large_image, (50, 50))
-cl_medium_image = pygame.image.load('corpus leuteum medium.png').convert_alpha()
+cl_medium_image = pygame.image.load('corpus luteum medium.png').convert_alpha()
 cl_medium_image = pygame.transform.scale(cl_medium_image, (40, 40))
-cl_small_image = pygame.image.load('corpus leuteum small.png').convert_alpha()
+cl_small_image = pygame.image.load('corpus luteum small.png').convert_alpha()
 cl_small_image = pygame.transform.scale(cl_small_image, (30, 30))
 egg_cell_image = pygame.image.load('egg cell.png').convert_alpha()
 egg_cell_image = pygame.transform.scale(egg_cell_image, (20, 20))
@@ -114,19 +114,68 @@ slider_group = pygame.sprite.Group()
 
 
 #Not yet functional.  Hormones will function similar to projectiles in our evil clutches game.
+# Create classes
 class Hormone(pygame.sprite.Sprite):
-    def __init__(self, image, rect, pos: tuple, speed):
+    def __init__(self, image, start: tuple, end:tuple, speed, spawn_interval):
         super().__init__()
         self.image = image
-        self.rect = rect
-        self.pos = pos
-        self.mask = pygame.mask.from_surface(image)
+        self.rect = self.image.get_rect()
+        self.start = start
+        self.end = end
+        self.t = 0
         self.speed = speed
-
+        self.spawn_interval = spawn_interval 
+        self.tolerance = 5 #had precision issues when using exact coordinates for the self.kill
+        
     def update(self):
-        self.rect.y += self.speed
-        if not (WINDOW_WIDTH >= self.rect.y >= 0 - self.rect.width): # need to adjust for brain
+        self.t += self.speed
+        if self.t >1:
+            self.t = 0
+        
+        x = (1-self.t) * self.start[0] + self.t * self.end[0]
+        y = (1-self.t)*self.start[1]+self.t*self.end[1]
+        self.rect.center = (int(x), int(y))
+        
+        if abs(x - self.end[0]) < self.tolerance and abs(y - self.end[1]) < self.tolerance:
             self.kill()
+    
+'''def spawn_hormones():
+    global estrogen_speed
+    global estrogen_speed
+    global progesterone_speed 
+    global lh_speed 
+    global fsh_speed 
+    global LH_SPAWN_INTERVAL
+    global ESTROGEN_SPAWN_INTERVAL
+    global PROGESTERONE_SPAWN_INTERVAL
+    global FSH_SPAWN_INTERVAL
+    global lhspawn_timer
+    global estrogenspawn_timer
+    global progesteronespawn_timer
+    global fshspawn_timer
+    current_time = pygame.time.get_ticks()
+
+    
+    if len(estrogen_group) < 15 and current_time - estrogenspawn_timer > ESTROGEN_SPAWN_INTERVAL:
+        new_Hormone1 = Hormone(estrogen_molecule_image, (905, 631), (871, 382), estrogen_speed, ESTROGEN_SPAWN_INTERVAL)
+        estrogen_group.add(new_Hormone1)
+        estrogenspawn_timer = current_time
+    
+    if len(lh_group) < 15 and current_time - lhspawn_timer > lh_group.sprites()[-1].spawn_interval:
+        new_Hormone = Hormone(LH_molecule_image, (1044, 391), (974, 631), lh_speed, LH_SPAWN_INTERVAL)
+        lh_group.add(new_Hormone)
+        lhspawn_timer = current_time
+
+    if len(progesterone_group) < 15 and current_time - progesteronespawn_timer > progesterone_group.sprites()[-1].spawn_interval: 
+        new_Hormone2 = Hormone(progesterone_molecule_image, (923, 609), (883,353),.01, PROGESTERONE_SPAWN_INTERVAL)
+        progesterone_group.add(new_Hormone2)
+        progesteronespawn_timer = current_time
+    
+    if len (fsh_group) < 15 and current_time - fshspawn_timer > fsh_group.sprites()[-1].spawn_interval:
+        new_Hormone3 = Hormone(FSH_molecule_image, (1021,357), (963,609),.01, FSH_SPAWN_INTERVAL)
+        fsh_group.add(new_Hormone3)
+        fshspawn_timer = current_time
+'''
 
 #Not yet functional.  Beginning outline for moving the follicles.  Plan to make the sliders a subclass.
 class Follicle(pygame.sprite.Sprite):
@@ -142,6 +191,7 @@ class Follicle(pygame.sprite.Sprite):
             #moving = False
         #elif pygame.event.type == MOUSEMOTION and moving:
             #follicle.move_ip(event.rel)
+
 class Slider(pygame.sprite.Sprite):
     def __init__(self, image, pos: tuple, size: tuple, min: int, max: int):
         super().__init__()
@@ -150,6 +200,7 @@ class Slider(pygame.sprite.Sprite):
         self.size = size
         self.min = min
         self.max = max
+        #self.initial_val = (self.max - self.min) * initial_val  # <- percentage
         self.rect = self.image.get_rect()
         self.rect.topleft = self.pos
 
@@ -172,7 +223,7 @@ CL_LARGE_WIDTH = 30
 
 def main():
     lhslider = Slider(LH_slider_image,(920, 425), (15,15), 425, 345)
-    fhsslider = Slider(FSH_slider_image, (970,420), (15,15), 420,340)
+    fhsslider = Slider(FSH_slider_image, (970,420), (15,15), 420, 340)
     eslider = Slider(estrogen_slider_image, (902,792),(15,15),792, 730)
     pslider = Slider(progesterone_slider_image, (972, 792), (15,15),792, 730)
     slider_group.add(lhslider)
