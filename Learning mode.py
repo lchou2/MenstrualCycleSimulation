@@ -149,10 +149,9 @@ estrogen_group = pygame.sprite.Group()
 lh_group = pygame.sprite.Group()
 progesterone_group = pygame.sprite.Group()
 fsh_group = pygame.sprite.Group()
-pituitary_group = pygame.sprite.Group()
 slider_group = pygame.sprite.Group()
 
-# Not yet functional.  Hormones will function similar to projectiles in our evil clutches game.
+# Hormones will function similar to projectiles in our evil clutches game.
 class Hormone(pygame.sprite.Sprite):
     def __init__(self, image, start: tuple, end:tuple, speed):
         super().__init__()
@@ -179,15 +178,11 @@ class Hormone(pygame.sprite.Sprite):
 def spawn_hormones():
     global spawn_timer
     global estrogen_speed
-    global estrogen_speed
     global progesterone_speed 
     global lh_speed 
     global fsh_speed 
     current_time = pygame.time.get_ticks()
-    
- 
-
-    
+       
     if len(estrogen_group) < 15 and current_time - spawn_timer > spawn_interval:
         new_Hormone = Hormone(LH_molecule_image, (1044, 391), (974, 631), lh_speed)
         new_Hormone1 = Hormone(estrogen_molecule_image, (905, 631), (871, 382), estrogen_speed)
@@ -200,6 +195,7 @@ def spawn_hormones():
         fsh_group.add(new_Hormone3)
         
         spawn_timer = current_time
+        
 # Not yet functional.  Beginning outline for moving the follicles.  Plan to make the sliders a subclass.
 class Follicle(pygame.sprite.Sprite):
     def __init__(self,image,rect):
@@ -324,7 +320,7 @@ menstrual_lining_changes = {
     }
 
 
-#hormone levels for speed variables
+#hormone levels for slider positions
 hormone_levels = {
     0: [0.0038, 0.0021, 0.0026, 0.0048],
     1: [0.0032, 0.0019, 0.0032, 0.0063],
@@ -359,7 +355,7 @@ hormone_levels = {
 }
 
 
-# captions to display in a text box by day
+# slider lovation by day
 
 slider_location = {
     0: [394.6, 403.2, 775.88, 762.24],
